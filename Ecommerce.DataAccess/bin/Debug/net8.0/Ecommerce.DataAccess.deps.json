@@ -1,0 +1,49 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "Ecommerce.DataAccess/1.0.0": {
+        "dependencies": {
+          "Ecommerce.Business": "1.0.0"
+        },
+        "runtime": {
+          "Ecommerce.DataAccess.dll": {}
+        }
+      },
+      "Ecommerce.Business/1.0.0": {
+        "dependencies": {
+          "Ecommerce.Core": "1.0.0"
+        },
+        "runtime": {
+          "Ecommerce.Business.dll": {}
+        }
+      },
+      "Ecommerce.Core/1.0.0": {
+        "runtime": {
+          "Ecommerce.Core.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Ecommerce.DataAccess/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Ecommerce.Business/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Ecommerce.Core/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

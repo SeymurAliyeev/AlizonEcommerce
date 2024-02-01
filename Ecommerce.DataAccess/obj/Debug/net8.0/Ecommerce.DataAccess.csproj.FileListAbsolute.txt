@@ -1,0 +1,17 @@
+C:\Users\user\Desktop\EcommerceSolution\Ecommerce.DataAccess\bin\Debug\net8.0\Ecommerce.DataAccess.deps.json
+C:\Users\user\Desktop\EcommerceSolution\Ecommerce.DataAccess\bin\Debug\net8.0\Ecommerce.DataAccess.dll
+C:\Users\user\Desktop\EcommerceSolution\Ecommerce.DataAccess\bin\Debug\net8.0\Ecommerce.DataAccess.pdb
+C:\Users\user\Desktop\EcommerceSolution\Ecommerce.DataAccess\bin\Debug\net8.0\Ecommerce.Business.dll
+C:\Users\user\Desktop\EcommerceSolution\Ecommerce.DataAccess\bin\Debug\net8.0\Ecommerce.Core.dll
+C:\Users\user\Desktop\EcommerceSolution\Ecommerce.DataAccess\bin\Debug\net8.0\Ecommerce.Business.pdb
+C:\Users\user\Desktop\EcommerceSolution\Ecommerce.DataAccess\bin\Debug\net8.0\Ecommerce.Core.pdb
+C:\Users\user\Desktop\EcommerceSolution\Ecommerce.DataAccess\obj\Debug\net8.0\Ecommerce.DataAccess.csproj.AssemblyReference.cache
+C:\Users\user\Desktop\EcommerceSolution\Ecommerce.DataAccess\obj\Debug\net8.0\Ecommerce.DataAccess.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\user\Desktop\EcommerceSolution\Ecommerce.DataAccess\obj\Debug\net8.0\Ecommerce.DataAccess.AssemblyInfoInputs.cache
+C:\Users\user\Desktop\EcommerceSolution\Ecommerce.DataAccess\obj\Debug\net8.0\Ecommerce.DataAccess.AssemblyInfo.cs
+C:\Users\user\Desktop\EcommerceSolution\Ecommerce.DataAccess\obj\Debug\net8.0\Ecommerce.DataAccess.csproj.CoreCompileInputs.cache
+C:\Users\user\Desktop\EcommerceSolution\Ecommerce.DataAccess\obj\Debug\net8.0\Ecommerce.DataAccess.csproj.CopyComplete
+C:\Users\user\Desktop\EcommerceSolution\Ecommerce.DataAccess\obj\Debug\net8.0\Ecommerce.DataAccess.dll
+C:\Users\user\Desktop\EcommerceSolution\Ecommerce.DataAccess\obj\Debug\net8.0\refint\Ecommerce.DataAccess.dll
+C:\Users\user\Desktop\EcommerceSolution\Ecommerce.DataAccess\obj\Debug\net8.0\Ecommerce.DataAccess.pdb
+C:\Users\user\Desktop\EcommerceSolution\Ecommerce.DataAccess\obj\Debug\net8.0\ref\Ecommerce.DataAccess.dll
