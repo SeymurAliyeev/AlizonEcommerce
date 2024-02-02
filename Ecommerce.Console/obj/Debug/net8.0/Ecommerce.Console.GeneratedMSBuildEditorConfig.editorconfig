@@ -8,6 +8,6 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = Ecommerce.Console
-build_property.ProjectDir = C:\Users\user\Desktop\EcommerceSolution\Ecommerce.Console\
+build_property.ProjectDir = C:\Users\user\Desktop\AlizonEcommerce\Ecommerce.Console\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 

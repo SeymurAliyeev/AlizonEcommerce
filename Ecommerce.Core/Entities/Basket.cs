@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Ecommerce.Core.Abstract;
 
-namespace Ecommerce.Core.Entities
+namespace Ecommerce.Core.Entities;
+
+public class Basket:BaseEntities
 {
-    internal class Basket
-    {
-    }
+    public User User { get; set; } = null!;
+    public int Userid { get; set; }
+    public ICollection<BasketProduct>? BasketProducts { get; set; }
 }

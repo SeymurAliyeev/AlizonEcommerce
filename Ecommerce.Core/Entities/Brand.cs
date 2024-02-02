@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Ecommerce.Core.Abstract;
 
-namespace Ecommerce.Core.Entities
+namespace Ecommerce.Core.Entities;
+
+public class Brand : BaseEntities
 {
-    internal class Brand
-    {
-    }
+    public string Name { get; set; } = null!;
+    public ICollection<Product>? Products { get; set; }
 }
