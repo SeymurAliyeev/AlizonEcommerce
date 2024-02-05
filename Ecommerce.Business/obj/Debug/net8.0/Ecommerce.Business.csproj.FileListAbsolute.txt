@@ -14,6 +14,7 @@ C:\Users\user\Desktop\EcommerceSolution\Ecommerce.Business\obj\Debug\net8.0\refi
 C:\Users\user\Desktop\EcommerceSolution\Ecommerce.Business\obj\Debug\net8.0\Ecommerce.Business.pdb
 C:\Users\user\Desktop\EcommerceSolution\Ecommerce.Business\obj\Debug\net8.0\ref\Ecommerce.Business.dll
 C:\Users\user\Desktop\AlizonEcommerce\Ecommerce.Business\bin\Debug\net8.0\Ecommerce.Business.deps.json
+C:\Users\user\Desktop\AlizonEcommerce\Ecommerce.Business\bin\Debug\net8.0\Ecommerce.Business.runtimeconfig.json
 C:\Users\user\Desktop\AlizonEcommerce\Ecommerce.Business\bin\Debug\net8.0\Ecommerce.Business.dll
 C:\Users\user\Desktop\AlizonEcommerce\Ecommerce.Business\bin\Debug\net8.0\Ecommerce.Business.pdb
 C:\Users\user\Desktop\AlizonEcommerce\Ecommerce.Business\bin\Debug\net8.0\Ecommerce.Core.dll
@@ -28,6 +29,7 @@ C:\Users\user\Desktop\AlizonEcommerce\Ecommerce.Business\obj\Debug\net8.0\Ecomme
 C:\Users\user\Desktop\AlizonEcommerce\Ecommerce.Business\obj\Debug\net8.0\Ecommerce.Business.dll
 C:\Users\user\Desktop\AlizonEcommerce\Ecommerce.Business\obj\Debug\net8.0\refint\Ecommerce.Business.dll
 C:\Users\user\Desktop\AlizonEcommerce\Ecommerce.Business\obj\Debug\net8.0\Ecommerce.Business.pdb
-C:\Users\user\Desktop\AlizonEcommerce\Ecommerce.Business\obj\Debug\net8.0\ref\Ecommerce.Business.dll
-C:\Users\user\Desktop\AlizonEcommerce\Ecommerce.Business\bin\Debug\net8.0\Ecommerce.Business.runtimeconfig.json
 C:\Users\user\Desktop\AlizonEcommerce\Ecommerce.Business\obj\Debug\net8.0\Ecommerce.Business.genruntimeconfig.cache
+C:\Users\user\Desktop\AlizonEcommerce\Ecommerce.Business\obj\Debug\net8.0\ref\Ecommerce.Business.dll
+C:\Users\user\Desktop\AlizonEcommerce\Ecommerce.Business\bin\Debug\net8.0\Ecommerce.DataAccess.dll
+C:\Users\user\Desktop\AlizonEcommerce\Ecommerce.Business\bin\Debug\net8.0\Ecommerce.DataAccess.pdb

@@ -8,7 +8,7 @@
     ".NETCoreApp,Version=v8.0": {
       "Ecommerce.Business/1.0.0": {
         "dependencies": {
-          "Ecommerce.Core": "1.0.0",
+          "Ecommerce.DataAccess": "1.0.0",
           "Microsoft.EntityFrameworkCore": "8.0.1",
           "Microsoft.EntityFrameworkCore.Design": "8.0.1",
           "Microsoft.EntityFrameworkCore.SqlServer": "8.0.1",
@@ -921,6 +921,16 @@
         "runtime": {
           "Ecommerce.Core.dll": {}
         }
+      },
+      "Ecommerce.DataAccess/1.0.0": {
+        "dependencies": {
+          "Ecommerce.Core": "1.0.0",
+          "Microsoft.EntityFrameworkCore": "8.0.1",
+          "Microsoft.EntityFrameworkCore.SqlServer": "8.0.1"
+        },
+        "runtime": {
+          "Ecommerce.DataAccess.dll": {}
+        }
       }
     }
   },
@@ -1456,6 +1466,11 @@
       "hashPath": "system.windows.extensions.6.0.0.nupkg.sha512"
     },
     "Ecommerce.Core/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Ecommerce.DataAccess/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

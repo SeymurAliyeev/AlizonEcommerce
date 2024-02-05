@@ -20,7 +20,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Ecommerce.Core\Ecommerce.Core.csproj" />
+    <Folder Include="Utilities\Helpers\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Ecommerce.DataAccess\Ecommerce.DataAccess.csproj" />
   </ItemGroup>
 
 </Project>
