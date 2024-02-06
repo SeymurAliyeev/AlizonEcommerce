@@ -68,7 +68,8 @@ public class ProductService : IProductServices
         foreach (Product product in _dbContext.Products)
         {
             product.isDelete = false;
-            Console.WriteLine("All Products");
+            Console.WriteLine($"All Products:\n"+
+                               $"{product.Name};  {product.Price};  {product.StockCount};  {product.Category};  {product.Brand};  {product.Discount};");
         }
     }
 
@@ -77,7 +78,8 @@ public class ProductService : IProductServices
         foreach (Product product in _dbContext.Products)
         {
             product.isDelete = true;
-            Console.WriteLine("All Deactivated Products");
+            Console.WriteLine($"All Deactivated Products:\n" +
+                               $"{product.Name};  {product.Price};  {product.StockCount};  {product.Category};  {product.Brand};  {product.Discount};");
         }
     }
 

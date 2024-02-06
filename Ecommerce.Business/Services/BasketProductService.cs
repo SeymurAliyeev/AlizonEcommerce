@@ -24,7 +24,7 @@ public class BasketProductService : IBasketProductServices
         var basket = _dbContext.Baskets.Find(basketId);
         var product = _dbContext.Products.Find(productId);
 
-        if (basket != null && product != null && quantity<= product.StockCount)
+        if (basket != null && product != null && quantity <= product.StockCount)
         {
 
             var existingBasketProduct = _dbContext.BasketProducts.FirstOrDefault(bp => bp.ProductId == productId);
@@ -32,6 +32,7 @@ public class BasketProductService : IBasketProductServices
             if (existingBasketProduct != null)
             {
                 existingBasketProduct.BasProCount += quantity;
+                product.StockCount -= quantity;
             }
             else
             {

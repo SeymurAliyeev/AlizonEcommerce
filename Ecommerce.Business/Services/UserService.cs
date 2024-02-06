@@ -24,7 +24,7 @@ public class UserService : IUserServices
         User user = new();
         _dbContext.Users.Add(user);
         _dbContext.SaveChanges();
-        Console.WriteLine($"{user} has successfully been created!!!");
+        Console.WriteLine($"{user}, you have successfully registered!!!");
     }
 
     public void Delete(string _username, string _password)
@@ -52,6 +52,22 @@ public class UserService : IUserServices
             {
                 user.UserName = _username;
                 user.UserPassword = _password;
+                Console.WriteLine("Welcome to Alizon Express");
+            }
+        }
+        else Console.WriteLine("Invalid Username or Password");
+    }
+
+    public void AdminLogIn(string _username, string _password)
+    {
+        User dbUser = _dbContext.Users.FirstOrDefault(u => u.UserName.ToLower() != _username.ToLower());
+        throw new NotFoundException($"Admin with this {_username} is not found");
+        if (dbUser != null)
+        {
+            foreach (User user in _dbContext.Users)
+            {
+                user.UserName = _username = "Seymur";
+                user.UserPassword = _password = "seymur1996";
                 Console.WriteLine("Welcome to Alizon Express");
             }
         }
