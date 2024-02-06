@@ -19,6 +19,7 @@ public class WalletService : IWalletServices
 
         Wallet wallet = new();
         _dbContext.Wallets.Add(wallet);
+        _dbContext.SaveChanges();
         Console.WriteLine($"{wallet} has successfully been added into your profile");
     }
 
@@ -44,7 +45,7 @@ public class WalletService : IWalletServices
 
         var wallet = _dbContext.Wallets.FirstOrDefault(w => w.CardNumber.ToLower() == cardNumber.ToLower());
 
-        if (wallet.UserId == userId)
+        if (wallet.UserId == userId && amount>0)
         {
             wallet.CardBalance += amount;
             _dbContext.SaveChanges();

@@ -37,6 +37,7 @@ public class UserService : IUserServices
             user.UserName = _username;
             user.UserPassword = _password;
             user.isDelete = true;
+            _dbContext.SaveChanges();
             Console.WriteLine($"{user} has been deleted!!!");
         }
     }
