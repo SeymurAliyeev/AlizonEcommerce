@@ -16,4 +16,12 @@ public class Product:BaseEntities
     public int BrandId { get; set; }
     public ICollection<ProductInvoice>? ProductInvoices { get; set; }
     public ICollection<BasketProduct>? BasketProducts { get; set; }
+
+    //public Product(string name, decimal price, string? description, int stockCount)
+    //{
+    //    Name = name;
+    //    Price = price;
+    //    Description = description;
+    //    StockCount = stockCount;
+    //}
 }

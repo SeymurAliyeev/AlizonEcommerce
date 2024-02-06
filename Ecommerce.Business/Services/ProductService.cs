@@ -1,12 +1,36 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Ecommerce.Business.Interfaces;
 
-namespace Ecommerce.Business.Services
+namespace Ecommerce.Business.Services;
+
+public class ProductService : IProductServices
 {
-    internal class ProductService
+    public void Create(string name, decimal price, string description, int stockCount, string categoryName, string brandName)
     {
+        throw new NotImplementedException();
+    }
+
+    public void Deactivate(string name)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void Delete(string name)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void ShowAll()
+    {
+        throw new NotImplementedException();
+    }
+
+    public void ShowAllDeactivated()
+    {
+        throw new NotImplementedException();
+    }
+
+    public void Update(string name)
+    {
+        throw new NotImplementedException();
     }
 }

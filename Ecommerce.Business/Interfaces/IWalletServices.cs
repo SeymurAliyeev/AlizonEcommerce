@@ -2,7 +2,7 @@
 
 public interface IWalletServices
 {
-    void Create(string _CardName, string _CardNumber, decimal _CardBalance, int _UserId);
+    void Create(string cardName, string cardNumber, decimal cardBalance, int userId);
     void Delete(string cardNumber, int userId);
-    void Update(int CardId);
+    void Update(string cardNumber, int userId, decimal amount);
 }

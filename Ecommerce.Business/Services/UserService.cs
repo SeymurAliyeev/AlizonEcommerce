@@ -21,7 +21,7 @@ public class UserService : IUserServices
         User dbUser = _dbContext.Users.FirstOrDefault(u => u.UserName.ToLower() == UserName.ToLower());
         throw new AlreadyExistException($"{UserName} is already exist");
 
-        User user = new(UserName, UserPassword, Name, Surname, Phone, Email);
+        User user = new();
         _dbContext.Users.Add(user);
         _dbContext.SaveChanges();
         Console.WriteLine($"{user} has successfully been created!!!");

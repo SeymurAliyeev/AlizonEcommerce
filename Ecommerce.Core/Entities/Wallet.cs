@@ -11,11 +11,4 @@ public class Wallet:BaseEntities
     public User User { get; set; } = null!; 
     public ICollection<Invoice>? Invoices { get; set; }
 
-    public Wallet(string cardName, string cardNumber, decimal cardBalance, int userId)
-    {
-        CardName = cardName;
-        CardNumber = cardNumber;
-        CardBalance = cardBalance;
-        UserId = userId;
-    }
 }

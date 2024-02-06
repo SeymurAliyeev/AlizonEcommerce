@@ -17,7 +17,7 @@ public class WalletService : IWalletServices
         Wallet dbWallet = _dbContext.Wallets.FirstOrDefault(w => w.CardNumber.ToLower() == cardName.ToLower());
         throw new AlreadyExistException($"{cardName} is already exist");
 
-        Wallet wallet = new(cardName, cardNumber, cardBalance, userId);
+        Wallet wallet = new();
         _dbContext.Wallets.Add(wallet);
         Console.WriteLine($"{wallet} has successfully been added into your profile");
     }
@@ -42,9 +42,13 @@ public class WalletService : IWalletServices
         Wallet dbWallet = _dbContext.Wallets.FirstOrDefault(w => w.CardNumber.ToLower() != cardNumber.ToLower());
         throw new NotFoundException($"{cardNumber} is not found");
 
-        if (cardNumber is not null)
+        var wallet = _dbContext.Wallets.FirstOrDefault(w => w.CardNumber.ToLower() == cardNumber.ToLower());
+
+        if (wallet.UserId == userId)
         {
-           
+            wallet.CardBalance += amount;
+            _dbContext.SaveChanges();
+            Console.WriteLine($"Your balance has successfully been increased");
         }
     }
 }

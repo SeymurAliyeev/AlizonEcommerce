@@ -16,13 +16,4 @@ public class User : BaseEntities
     public ICollection<Invoice>? Invoices { get; set; }
     public Basket? Basket { get; set; }
 
-    public User(string username, string userpassword,string name, string surname,string phone,string email)
-    {
-        UserName = username;
-        UserPassword = userpassword;
-        Name = name;
-        Surname = surname;
-        Phone = phone;
-        Email = email;
-    }
 }
