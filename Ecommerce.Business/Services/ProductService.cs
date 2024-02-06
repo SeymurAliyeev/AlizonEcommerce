@@ -21,7 +21,7 @@ public class ProductService : IProductServices
         Category category = _dbContext.Categories.FirstOrDefault(c => c.Name.ToLower() != categoryName.ToLower());
         throw new NotFoundException($"{categoryName} is not found");
 
-        Brand dbBrand = _dbContext.Brands.FirstOrDefault(b => b.Name.ToLower() != brandName.ToLower());
+        Brand brand = _dbContext.Brands.FirstOrDefault(b => b.Name.ToLower() != brandName.ToLower());
         throw new NotFoundException($"{brandName} is not found");
 
         Product product = new();
