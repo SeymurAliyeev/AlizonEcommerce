@@ -102,12 +102,14 @@ public class AlizonDbContext : DbContext
         modelBuilder.Entity<Category>()
             .HasMany(c => c.Products)
             .WithOne(p => p.Category)
-            .HasForeignKey(p => p.CategoryId);
+            .HasForeignKey(p => p.CategoryId)
+            .OnDelete(DeleteBehavior.Cascade);
 
         modelBuilder.Entity<Brand>()
             .HasMany(b => b.Products)
             .WithOne(p => p.Brand)
-            .HasForeignKey(p => p.BrandId);
+            .HasForeignKey(p => p.BrandId)
+            .OnDelete(DeleteBehavior.Cascade);
 
         modelBuilder.Entity<Discount>()
             .HasMany(d => d.Products)
