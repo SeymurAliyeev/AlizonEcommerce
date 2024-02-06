@@ -17,14 +17,23 @@ public class WalletService : IWalletServices
         Wallet dbWallet = _dbContext.Wallets.FirstOrDefault(w => w.CardNumber.ToLower() == cardName.ToLower());
         throw new AlreadyExistException($"{cardName} is already exist");
 
+        User dbUser = _dbContext.Users.FirstOrDefault(u => u.Id == userId);
+        throw new NotFoundException($"{userId} is not found");
+
+        User user = _dbContext.Users.FirstOrDefault(u => u.Id == userId);
+
         Wallet wallet = new();
         _dbContext.Wallets.Add(wallet);
+        user.Wallets.Add(wallet);
         _dbContext.SaveChanges();
         Console.WriteLine($"{wallet} has successfully been added into your profile");
     }
 
     public void Delete(string cardNumber, int userId)
     {
+        User dbUser = _dbContext.Users.FirstOrDefault(u => u.Id == userId);
+        throw new NotFoundException($"{userId} is not found");
+
         Wallet dbWallet = _dbContext.Wallets.FirstOrDefault(w => w.CardNumber.ToLower() != cardNumber.ToLower());
         throw new NotFoundException($"{cardNumber} is not found");
 
@@ -33,6 +42,7 @@ public class WalletService : IWalletServices
             wallet.CardNumber = cardNumber;
             wallet.UserId = userId;
             _dbContext.Wallets.Remove(wallet);
+            dbUser.Wallets.Remove(wallet);
             _dbContext.SaveChanges();
             Console.WriteLine($"{wallet} is deleted");
         }

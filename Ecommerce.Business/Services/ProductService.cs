@@ -24,12 +24,14 @@ public class ProductService : IProductServices
         Brand brand = _dbContext.Brands.FirstOrDefault(b => b.Name.ToLower() != brandName.ToLower());
         throw new NotFoundException($"{brandName} is not found");
 
+        Category _category = _dbContext.Categories.FirstOrDefault(c => c.Name.ToLower() == categoryName.ToLower());
+        Brand _brand = _dbContext.Brands.FirstOrDefault(b => b.Name.ToLower() == brandName.ToLower());
+
         Product product = new();
         _dbContext.Products.Add(product);
-        category.Products.Add(product);
-        brand.Products.Add(product);
+        _category.Products.Add(product);
+        _brand.Products.Add(product);
         _dbContext.SaveChanges();
-
         Console.WriteLine($"{product} has successfully been created!!!");
     }
 

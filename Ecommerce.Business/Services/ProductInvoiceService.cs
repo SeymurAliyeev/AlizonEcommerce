@@ -1,12 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Ecommerce.Business.Interfaces;
+using Ecommerce.Business.Utilities.Exceptions;
+using Ecommerce.Core.Entities;
+using Ecommerce.DataAccess.Contexts;
+using Microsoft.EntityFrameworkCore;
 
-namespace Ecommerce.Business.Services
+namespace Ecommerce.Business.Services;
+
+public class ProductInvoiceService : IProductInvoiceServices
 {
-    internal class ProductInvoiceService
+    private readonly AlizonDbContext _dbContext;
+    public ProductInvoiceService(AlizonDbContext dbContext)
     {
+        _dbContext = dbContext;
     }
+
 }
+
