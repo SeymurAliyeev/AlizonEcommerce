@@ -2,7 +2,8 @@
 
 public interface ICategoryServices
 {
-    void Create(string categoryName);
-    void Delete(string categoryName);
-    void Deactivate(string categoryName);
+    void CreateAsync(string categoryName);
+    void DeleteAsync(string categoryName);
+    void DeactivateAsync(string categoryName);
+    void ShowAll();
 }

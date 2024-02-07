@@ -45,26 +45,32 @@ while (keeplooping)
                         string _username = Console.ReadLine();
                         Console.WriteLine("Please, enter admin password:");
                         string _password = Console.ReadLine();
-                       
+
                         bool adminAccess = await userService.AdminLogInAsync(_username, _password);
 
                         while (adminAccess)
                         {
                             Console.WriteLine("Choose the option:");
-                            Console.WriteLine("1  -  Create Product\n" +
-                                              "2  -  Update Product\n" +
-                                              "3  -  Deactivate Product\n" +
-                                              "4  -  Delete Product\n" +
-                                              "5  -  Show All Products\n" +
-                                              "6  -  Show All Deactivated Products\n" +
-                                              "7  -  Create Discount for Product\n" +
-                                              "8  -  Show All Users\n" +
-                                              "9  -  Show All Deleted Users\n" +
-                                              "10  -  Deactivate User\n" +
-                                              "11  -  Delete User\n" +
-                                              "12  -  Show All Invoices\n" +
-                                              "13  -  Show All Delivery Addresses\n" +
-                                              "14  -  Show All Deleted Delivery Addresses\n" +
+                            Console.WriteLine("1  -  Create Category\n" +
+                                              "2  -  Delete Category\n" +
+                                              "3  -  Show All Categories\n" +
+                                              "4  -  Create Brand\n" +
+                                              "5  -  Delete Brand\n" +
+                                              "6  -  Show All Brands\n" +
+                                              "7  -  Create Product\n" +
+                                              "8  -  Update Product\n" +
+                                              "9  -  Deactivate Product\n" +
+                                              "10  -  Delete Product\n" +
+                                              "11 -  Show All Products\n" +
+                                              "12  -  Show All Deactivated Products\n" +
+                                              "13 -  Create Discount for Product\n" +
+                                              "14  -  Show All Users\n" +
+                                              "15  -  Show All Deleted Users\n" +
+                                              "16  -  Deactivate User\n" +
+                                              "17  -  Delete User\n" +
+                                              "18  -  Show All Invoices\n" +
+                                              "19  -  Show All Delivery Addresses\n" +
+                                              "20  -  Show All Deleted Delivery Addresses\n" +
                                               "0  -  Exit");
 
                             string? num = Console.ReadLine();
@@ -72,11 +78,53 @@ while (keeplooping)
                             bool IsInt = int.TryParse(num, out Number);
                             if (IsInt)
                             {
-                                if (Number >= 0 && Number <= 14)
+                                if (Number >= 0 && Number <= 20)
                                 {
                                     switch (Number)
                                     {
                                         case 1:
+                                            try
+                                            {
+                                                Console.WriteLine("Please, enter category name:");
+                                                string categoryName = Console.ReadLine();
+                                                categoryService.CreateAsync(categoryName);
+                                            }
+                                            catch(Exception ex)
+                                            {
+                                                Console.WriteLine(ex.Message);
+                                            }
+                                            break;
+
+                                        case 2:
+                                            try
+                                            {
+                                                Console.WriteLine("Please, enter category name:");
+                                                string categoryName = Console.ReadLine();
+                                                categoryService.DeleteAsync(categoryName);
+                                            }
+                                            catch(Exception ex)
+                                            {
+                                                Console.WriteLine(ex.Message);
+                                            }
+                                            break;
+
+                                        case 3:
+                                            Console.WriteLine("All Categories:");
+                                            Console.WriteLine("---------------------------");
+                                            categoryService.ShowAll();
+                                            break;
+
+                                        case 4:
+
+                                            break;
+
+                                        case 5:
+                                            break;
+
+                                        case 6:
+                                            break;
+
+                                        case 7:
                                             try
                                             {
                                                 Console.WriteLine("Please, enter product name:");
@@ -100,7 +148,7 @@ while (keeplooping)
                                             }
                                             break;
 
-                                        case 2:
+                                        case 8:
                                             try
                                             {
                                                 Console.WriteLine("Please, enter product name:");
@@ -118,7 +166,7 @@ while (keeplooping)
                                             }
                                             break;
 
-                                        case 3:
+                                        case 9:
                                             try
                                             {
                                                 Console.WriteLine("Please, enter product name:");
@@ -132,7 +180,7 @@ while (keeplooping)
                                             }
                                             break;
 
-                                        case 4:
+                                        case 10:
                                             try
                                             {
                                                 Console.WriteLine("Please, enter product name:");
@@ -146,19 +194,19 @@ while (keeplooping)
                                             }
                                             break;
 
-                                        case 5:
+                                        case 11:
                                             Console.WriteLine("All Products:");
                                             Console.WriteLine("---------------------------");
                                             productService.ShowAll();
                                             break;
 
-                                        case 6:
+                                        case 12:
                                             Console.WriteLine("All Deactivated Products:");
                                             Console.WriteLine("---------------------------");
                                             productService.ShowAllDeactivated();
                                             break;
 
-                                        case 7:
+                                        case 13:
                                             try
                                             {
                                                 Console.WriteLine("Please,enter product name to which you want to apply discount:");
@@ -174,19 +222,19 @@ while (keeplooping)
                                             }
                                             break;
 
-                                        case 8:
+                                        case 14:
                                             Console.WriteLine("All Users:");
                                             Console.WriteLine("---------------------------");
                                             userService.ShowAll();
                                             break;
 
-                                        case 9:
+                                        case 15:
                                             Console.WriteLine("All Deleted Users:");
                                             Console.WriteLine("---------------------------");
                                             userService.ShowAllDeletedUsers();
                                             break;
 
-                                        case 10:
+                                        case 16:
                                             try
                                             {
                                                 Console.WriteLine("Please, enter user name:");
@@ -200,7 +248,7 @@ while (keeplooping)
                                             }
                                             break;
 
-                                        case 11:
+                                        case 17:
                                             try
                                             {
                                                 Console.WriteLine("Please, enter user name:");
@@ -214,19 +262,19 @@ while (keeplooping)
                                             }
                                             break;
 
-                                        case 12:
+                                        case 18:
                                             Console.WriteLine("All Invoices:");
                                             Console.WriteLine("---------------------------");
                                             invoiceService.ShowAll();
                                             break;
 
-                                        case 13:
+                                        case 19:
                                             Console.WriteLine("All Delivery Addresses:");
                                             Console.WriteLine("---------------------------");
                                             deliveryAddressService.ShowAll();
                                             break;
 
-                                        case 14:
+                                        case 20:
                                             Console.WriteLine("All Deleted Delivery Addresses:");
                                             Console.WriteLine("---------------------------");
                                             deliveryAddressService.ShowAllDeactivated();
@@ -290,10 +338,10 @@ while (keeplooping)
                         string username = Console.ReadLine();
                         Console.WriteLine("Please, enter your password:");
                         string password = Console.ReadLine();
-                       
-                        UserAcces userAccess = await userService.LoginAsync(username, password);
+
+                        UserAccess userAccess = await userService.LoginAsync(username, password);
                         bool keeping = userAccess.IsUserAccess;
-                       
+
                         while (keeping)
                         {
                             Console.WriteLine("Choose the option:");
@@ -327,8 +375,9 @@ while (keeplooping)
                                                 string city = Console.ReadLine();
                                                 Console.WriteLine("Please, insert the postal code of the nearest post office:");
                                                 string postalcode = Console.ReadLine();
-                                                
-                                                deliveryAddressService.Create(address, city, postalcode);
+                                                int _userId = userAccess.UserId;
+
+                                                deliveryAddressService.Create(address, city, postalcode, _userId);
                                             }
                                             catch (Exception ex)
                                             {

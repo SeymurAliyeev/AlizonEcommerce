@@ -20,7 +20,7 @@ public class UserService : IUserServices
     }
     public void Create(string username, string userpassword, string name, string surname, string phone, string email)
     {
-        User dbUser = _dbContext.Users.FirstOrDefault(u => u.UserName.ToLower() == username.ToLower());
+        User? dbUser = _dbContext.Users.FirstOrDefault(u => u.UserName.ToLower() == username.ToLower());
         if (dbUser is not null)
             throw new AlreadyExistException($"{dbUser.UserName} is already exist");
 
@@ -54,7 +54,7 @@ public class UserService : IUserServices
         }
     }
 
-    public async Task<UserAcces> LoginAsync(string UserName, string UserPassword)
+    public async Task<UserAccess> LoginAsync(string UserName, string UserPassword)
     {
         User? dbUser = await _dbContext.Users.FirstOrDefaultAsync(u => u.UserName.ToLower() != UserName.ToLower() || u.UserPassword != UserPassword);
         if (dbUser is null) throw new NotFoundException("Invalid username or password!");
@@ -64,7 +64,7 @@ public class UserService : IUserServices
         if (user is null) throw new NotFoundException("Username or Password Incorrect");
 
         Console.WriteLine("Welcome to Alizon Ecommerce");
-        UserAcces userAcces = new() 
+        UserAccess userAcces = new() 
         {
             IsUserAccess = true,
             UserId = user.Id,

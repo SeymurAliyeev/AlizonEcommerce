@@ -14,9 +14,8 @@ public class DeliveryAddressService : IDeliveryAdressServices
     {
         _dbContext = dbContext;
     }
-    public async void Create(string address, string city, string postalcode)
+    public async void Create(string address, string city, string postalcode, int _userId)
     {
-        var userLog = await _dbContext.Users.FirstOrDefaultAsync(ul => ul.Session == true);
         DeliveryAddress dbDeliveryAdress = _dbContext.DeliveryAddresses.FirstOrDefault(da => da.Address.ToLower() == address.ToLower());
         if (dbDeliveryAdress is not null)
             throw new AlreadyExistException($"{dbDeliveryAdress.Address} is already exist");
@@ -26,7 +25,7 @@ public class DeliveryAddressService : IDeliveryAdressServices
             Address = address,
             City = city,
             PostalCode = postalcode,
-            UserId=userLog.Id
+            UserId = _userId
              
         };
         _dbContext.DeliveryAddresses.Add(deliveryAddress);
