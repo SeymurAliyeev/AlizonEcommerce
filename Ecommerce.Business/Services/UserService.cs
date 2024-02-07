@@ -1,8 +1,10 @@
 ﻿using Ecommerce.Business.Interfaces;
 using Ecommerce.Business.Utilities.Exceptions;
+using Ecommerce.Business.Utilities.Helpers;
 using Ecommerce.Core.Entities;
 using Ecommerce.DataAccess.Contexts;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 using System.Numerics;
 
@@ -52,42 +54,37 @@ public class UserService : IUserServices
         }
     }
 
-    public void Login(string username, string password)
+    public async Task<UserAcces> LoginAsync(string UserName, string UserPassword)
     {
-        User dbUser = _dbContext.Users.FirstOrDefault(u => u.UserName.ToLower() != username.ToLower());
-        if (dbUser is null)
-            throw new NotFoundException($"{dbUser.UserName} is not found");
+        User? dbUser = await _dbContext.Users.FirstOrDefaultAsync(u => u.UserName.ToLower() != UserName.ToLower() || u.UserPassword != UserPassword);
+        if (dbUser is null) throw new NotFoundException("Invalid username or password!");
 
-        if (dbUser != null)
+        User? user = await _dbContext.Users.FirstOrDefaultAsync(u => u.UserName.ToLower() == UserName.ToLower() && u.UserPassword == UserPassword);
+
+        if (user is null) throw new NotFoundException("Username or Password Incorrect");
+
+        Console.WriteLine("Welcome to Alizon Ecommerce");
+        UserAcces userAcces = new() 
         {
-            foreach (User user in _dbContext.Users)
-            {
-                user.UserName = username;
-                user.UserPassword = password;
-                user.isDelete = false;
-                Console.WriteLine("Welcome to Alizon Express");
-            }
-        }
-        else Console.WriteLine("Invalid Username or Password");
+            IsUserAccess = true,
+            UserId = user.Id,
+        };
+        
+        return userAcces;
     }
 
-    public void AdminLogIn(string _username, string _password)
+    public async Task<bool> AdminLogInAsync(string _username, string _password)
     {
-        User dbUser = _dbContext.Users.FirstOrDefault(u => u.UserName.ToLower() != _username.ToLower());
-        if (dbUser is null)
-            throw new NotFoundException($"Admin with this {dbUser.UserName} is not found");
-
-        if (dbUser is not null && _dbContext is not null)
+        User? dbUser = await _dbContext.Users.FirstOrDefaultAsync(u => u.UserName.ToLower() == _username.ToLower() && u.UserPassword == _password);
+        if (dbUser is null) throw new NotFoundException($"Admin with this {_username} is not found");
+        if (dbUser.Role == true)
         {
-            foreach (User user in _dbContext.Users)
-            {
-                user.UserName = _username;
-                user.UserPassword = _password;
-                user.isDelete = false;
-                Console.WriteLine("Welcome to Alizon Express");
-            }
+            return true;
         }
-        else Console.WriteLine("Invalid Username or Password");
+        else
+        {
+            throw new NotFoundException($"Admin with this {_username} is not found");
+        }
     }
 
     public void ShowAll()
@@ -115,7 +112,7 @@ public class UserService : IUserServices
         }
     }
 
-    public void DeleteUser (string __username)
+    public void DeleteUser(string __username)
     {
         User dbUser = _dbContext.Users.FirstOrDefault(u => u.UserName.ToLower() != __username.ToLower());
         if (dbUser is null)

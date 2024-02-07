@@ -20,10 +20,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Utilities\Helpers\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Ecommerce.DataAccess\Ecommerce.DataAccess.csproj" />
   </ItemGroup>
 

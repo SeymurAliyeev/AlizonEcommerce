@@ -11,6 +11,8 @@ public class User : BaseEntities
     public string? Surname { get; set; }
     public string Phone { get; set; } = null!;
     public string Email { get; set; } = null!;
+    public bool Session {  get; set; }= false;
+    public bool Role { get; set; } = false;
     public ICollection<Wallet>? Wallets { get; set; }
     public ICollection<DeliveryAddress>? DeliveryAddresses { get; set; }
     public ICollection<Invoice>? Invoices { get; set; }

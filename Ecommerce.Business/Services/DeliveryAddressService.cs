@@ -14,17 +14,20 @@ public class DeliveryAddressService : IDeliveryAdressServices
     {
         _dbContext = dbContext;
     }
-    public void Create(string address, string city, string postalcode,int _userId)
+    public async void Create(string address, string city, string postalcode)
     {
+        var userLog = await _dbContext.Users.FirstOrDefaultAsync(ul => ul.Session == true);
         DeliveryAddress dbDeliveryAdress = _dbContext.DeliveryAddresses.FirstOrDefault(da => da.Address.ToLower() == address.ToLower());
-        throw new AlreadyExistException($"{address} is already exist");
+        if (dbDeliveryAdress is not null)
+            throw new AlreadyExistException($"{dbDeliveryAdress.Address} is already exist");
 
         DeliveryAddress deliveryAddress = new()
         {
             Address = address,
             City = city,
             PostalCode = postalcode,
-            UserId = _userId
+            UserId=userLog.Id
+             
         };
         _dbContext.DeliveryAddresses.Add(deliveryAddress);
         _dbContext.SaveChanges();

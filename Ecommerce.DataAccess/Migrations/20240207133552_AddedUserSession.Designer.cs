@@ -4,6 +4,7 @@ using Ecommerce.DataAccess.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Ecommerce.DataAccess.Migrations
 {
     [DbContext(typeof(AlizonDbContext))]
-    partial class AlizonDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240207133552_AddedUserSession")]
+    partial class AddedUserSession
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -382,9 +385,6 @@ namespace Ecommerce.DataAccess.Migrations
                     b.Property<string>("Phone")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
-
-                    b.Property<bool>("Role")
-                        .HasColumnType("bit");
 
                     b.Property<bool>("Session")
                         .HasColumnType("bit");

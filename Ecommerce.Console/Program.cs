@@ -1,4 +1,5 @@
 ﻿using Ecommerce.Business.Services;
+using Ecommerce.Business.Utilities.Helpers;
 using Ecommerce.DataAccess.Contexts;
 using Microsoft.IdentityModel.Tokens;
 
@@ -44,10 +45,10 @@ while (keeplooping)
                         string _username = Console.ReadLine();
                         Console.WriteLine("Please, enter admin password:");
                         string _password = Console.ReadLine();
-                        userService.AdminLogIn(_username, _password);
+                       
+                        bool adminAccess = await userService.AdminLogInAsync(_username, _password);
 
-                        bool looping = true;
-                        while (looping)
+                        while (adminAccess)
                         {
                             Console.WriteLine("Choose the option:");
                             Console.WriteLine("1  -  Create Product\n" +
@@ -232,7 +233,7 @@ while (keeplooping)
                                             break;
 
                                         default:
-                                            looping = false;
+                                            adminAccess = false;
                                             break;
 
                                     }
@@ -289,9 +290,10 @@ while (keeplooping)
                         string username = Console.ReadLine();
                         Console.WriteLine("Please, enter your password:");
                         string password = Console.ReadLine();
-                        userService.Login(username, password);
-
-                        bool keeping = true;
+                       
+                        UserAcces userAccess = await userService.LoginAsync(username, password);
+                        bool keeping = userAccess.IsUserAccess;
+                       
                         while (keeping)
                         {
                             Console.WriteLine("Choose the option:");
@@ -325,9 +327,8 @@ while (keeplooping)
                                                 string city = Console.ReadLine();
                                                 Console.WriteLine("Please, insert the postal code of the nearest post office:");
                                                 string postalcode = Console.ReadLine();
-                                                Console.WriteLine("Please,enter your User Id");
-                                                int _userId = Convert.ToInt32(Console.ReadLine());
-                                                deliveryAddressService.Create(address, city, postalcode, _userId);
+                                                
+                                                deliveryAddressService.Create(address, city, postalcode);
                                             }
                                             catch (Exception ex)
                                             {
@@ -361,9 +362,8 @@ while (keeplooping)
                                                 string cardNumber = Console.ReadLine();
                                                 Console.WriteLine("Please, enter Card Balance:");
                                                 decimal cardBalance = Convert.ToDecimal(Console.ReadLine());
-                                                Console.WriteLine("Please, enter your User Id:");
-                                                int uuserId = Convert.ToInt32(Console.ReadLine());
-                                                walletService.Create(cardName, cardNumber, cardBalance, uuserId);
+                                                int uuserId = userAccess.UserId;
+                                                walletService.CreateAsync(cardName, cardNumber, cardBalance, uuserId);
                                             }
                                             catch (Exception ex)
                                             {

@@ -7,7 +7,7 @@ public class AlizonDbContext : DbContext
 {
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseSqlServer(@"Server=.;Database=AlizonEcommberce;Trusted_Connection=true;TrustServerCertificate=true;");
+        optionsBuilder.UseSqlServer(@"Server=.;Database=AlizonEcommerce;Trusted_Connection=true;TrustServerCertificate=true;");
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -49,7 +49,8 @@ public class AlizonDbContext : DbContext
         modelBuilder.Entity<User>()
             .HasMany(u => u.DeliveryAddresses)
             .WithOne(da => da.User)
-            .HasForeignKey(da => da.UserId);
+            .HasForeignKey(da => da.UserId)
+            .OnDelete(DeleteBehavior.NoAction);
 
         modelBuilder.Entity<User>()
             .HasMany(u => u.Wallets)

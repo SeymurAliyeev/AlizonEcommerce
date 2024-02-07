@@ -2,6 +2,7 @@
 using Ecommerce.Business.Utilities.Exceptions;
 using Ecommerce.Core.Entities;
 using Ecommerce.DataAccess.Contexts;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Client;
 
 namespace Ecommerce.Business.Services;
@@ -13,20 +14,27 @@ public class WalletService : IWalletServices
     {
         _dbContext = dbContext;
     }
-    public void Create(string cardName, string cardNumber, decimal cardBalance, int uuserId)
+    public async void CreateAsync(string cardName, string cardNumber, decimal cardBalance, int uuserId)
     {
-        Wallet dbWallet = _dbContext.Wallets.FirstOrDefault(w => w.CardNumber.ToLower() == cardName.ToLower());
-        throw new AlreadyExistException($"{cardName} is already exist");
+        if (String.IsNullOrEmpty(cardNumber)) throw new ArgumentNullException();
+        Wallet dbWallet = await _dbContext.Wallets.FirstOrDefaultAsync(w => w.CardNumber.ToLower() == cardName.ToLower());
+        if (dbWallet is not null)
+        throw new AlreadyExistException($"{dbWallet.CardName} is already exist");
 
-        User dbUser = _dbContext.Users.FirstOrDefault(u => u.Id == uuserId);
-        throw new NotFoundException($"{uuserId} is not found");
+        User dbUser = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id != uuserId);
+        if( dbUser is null)
+        throw new NotFoundException($"{dbUser.Id} is not found");
 
-        User user = _dbContext.Users.FirstOrDefault(u => u.Id == uuserId);
 
-        Wallet wallet = new();
-        _dbContext.Wallets.Add(wallet);
-        user.Wallets.Add(wallet);
-        _dbContext.SaveChanges();
+        Wallet wallet = new()
+        {
+            CardName = cardName,
+            CardNumber = cardNumber,
+            CardBalance = cardBalance,
+            UserId = uuserId
+        };
+        await _dbContext.Wallets.AddAsync(wallet);
+        await _dbContext.SaveChangesAsync();
         Console.WriteLine($"{wallet} has successfully been added into your profile");
     }
 
