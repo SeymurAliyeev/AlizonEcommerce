@@ -17,9 +17,9 @@ public class AlizonDbContext : DbContext
             .IsUnique();
 
         modelBuilder.Entity<User>()
+
             .HasIndex(u => u.Email)
             .IsUnique();
-
         modelBuilder.Entity<User>()
             .HasIndex(u => u.Phone)
             .IsUnique();

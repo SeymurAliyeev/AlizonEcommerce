@@ -53,18 +53,14 @@ public class DeliveryAddressService : IDeliveryAdressServices
         }
     }
 
-    public void ShowAll(int userId)
+    public void ShowAll()
     {
-        User dbUser = _dbContext.Users.FirstOrDefault(u => u.Id != userId);
-        throw new NotFoundException($"{userId} is not found");
-
-        User _user = _dbContext.Users.FirstOrDefault(u => u.Id == userId);
 
         foreach (DeliveryAddress deliveryAddress in _dbContext.DeliveryAddresses )
         {
-            deliveryAddress.UserId = userId;
             deliveryAddress.isDelete=false;
-            Console.WriteLine($"All available delivery adresses of User with ID - {userId}");
+            Console.WriteLine($"All Delivery Addresses:\n" +
+                               $"{deliveryAddress.User};  {deliveryAddress.Address};  {deliveryAddress.City};  {deliveryAddress.PostalCode};");
         }
     }
 
@@ -73,7 +69,8 @@ public class DeliveryAddressService : IDeliveryAdressServices
         foreach (DeliveryAddress deliveryAddress in _dbContext.DeliveryAddresses)
         {
             deliveryAddress.isDelete = true;
-            Console.WriteLine($"All deleted delivery adresses");
+            Console.WriteLine($"All Deleted Delivery Addresses:\n" +
+                               $"{deliveryAddress.User};  {deliveryAddress.Address};  {deliveryAddress.City};  {deliveryAddress.PostalCode};");
         }
     }
 }
