@@ -12,42 +12,55 @@ public class BrandService : IBrandServices
     {
         _dbContext = dbContext;
     }
-    public void Create(string brandName)
+    public async void CreateAsync(string brandName)
     {
-        Brand dbBrand = _dbContext.Brands.FirstOrDefault(b => b.Name.ToLower() == brandName.ToLower());
-        throw new AlreadyExistException($"{brandName} is already exist");
+        Brand? dbBrand = _dbContext.Brands.FirstOrDefault(b => b.Name.ToLower() == brandName.ToLower());
+        if (dbBrand is not null) throw new AlreadyExistException($"{brandName} is already exist");
 
-        Brand brand = new();
-        _dbContext.Brands.Add(brand);
-        _dbContext.SaveChanges();
+        Brand brand = new()
+        {
+            Name = brandName
+        };
+        await _dbContext.Brands.AddAsync(brand);
+        await _dbContext.SaveChangesAsync();
         Console.WriteLine($"{brand} has successfully been created!!!");
     }
 
-    public void Deactivate(string brandName)
+    public async void DeactivateAsync(string brandName)
     {
-        Brand dbBrand = _dbContext.Brands.FirstOrDefault(b => b.Name.ToLower() != brandName.ToLower());
-        throw new NotFoundException($"{brandName} is not found");
+        Brand? dbBrand = _dbContext.Brands.FirstOrDefault(b => b.Name.ToLower() != brandName.ToLower());
+        if (dbBrand is null) throw new NotFoundException($"{brandName} is not found");
 
         foreach (Brand brand in _dbContext.Brands)
         {
             brand.Name = brandName;
             brand.isDelete = true;
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
             Console.WriteLine($"{brandName} has been deactivated!!!");
         }
     }
 
-    public void Delete(string brandName)
+    public async void DeleteAsync(string brandName)
     {
         Brand dbBrand = _dbContext.Brands.FirstOrDefault(b => b.Name.ToLower() != brandName.ToLower());
-        throw new NotFoundException($"{brandName} is not found");
+        if (dbBrand is null) throw new NotFoundException($"{brandName} is not found");
 
         foreach (Brand brand in _dbContext.Brands)
         {
             brand.Name = brandName;
             _dbContext.Brands.Remove(brand);
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
             Console.WriteLine($"{brandName} has been deleted!!!");
+        }
+    }
+
+    public void ShowAll()
+    {
+        foreach (Brand brand in _dbContext.Brands)
+        {
+            brand.isDelete = false;
+            Console.WriteLine($"All Brands:\n" +
+                               $"{brand.Name};");
         }
     }
 }

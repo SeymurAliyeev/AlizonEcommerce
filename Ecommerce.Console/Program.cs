@@ -115,13 +115,35 @@ while (keeplooping)
                                             break;
 
                                         case 4:
-
+                                            try
+                                            {
+                                                Console.WriteLine("Please, enter brand name:");
+                                                string brandName = Console.ReadLine();
+                                                brandService.CreateAsync(brandName);
+                                            }
+                                            catch (Exception ex)
+                                            {
+                                                Console.WriteLine(ex.Message);
+                                            }
                                             break;
 
                                         case 5:
+                                            try
+                                            {
+                                                Console.WriteLine("Please, enter brand name:");
+                                                string brandName = Console.ReadLine();
+                                                brandService.DeleteAsync(brandName);
+                                            }
+                                            catch (Exception ex)
+                                            {
+                                                Console.WriteLine(ex.Message);
+                                            }
                                             break;
 
                                         case 6:
+                                            Console.WriteLine("All Brands:");
+                                            Console.WriteLine("---------------------------");
+                                            brandService.ShowAll();
                                             break;
 
                                         case 7:
