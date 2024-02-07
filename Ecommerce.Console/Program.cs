@@ -290,6 +290,206 @@ while (keeplooping)
                         Console.WriteLine("Please, enter your password:");
                         string password = Console.ReadLine();
                         userService.Login(username, password);
+
+                        bool keeping = true;
+                        while (keeping)
+                        {
+                            Console.WriteLine("Choose the option:");
+                            Console.WriteLine("1  -  Add Delivery Address\n" +
+                                              "2  -  Delete Delivery Address\n" +
+                                              "3  -  Add Wallet\n" +
+                                              "4  -  Update wallet\n" +
+                                              "5  -  Delete Wallet\n" +
+                                              "6  -  Take Basket\n" +
+                                              "7  -  Show All Products\n" +
+                                              "8  -  Add Products into Basket\n" +
+                                              "9  -  Buy Selected Products\n" +
+                                              "10  -  Show All Wallets\n" +
+                                              "0  -  Exit");
+
+                            string? numero = Console.ReadLine();
+                            int Numero;
+                            bool EInt = int.TryParse(numero, out Numero);
+                            if (EInt)
+                            {
+                                if (Numero >= 0 && Numero <= 14)
+                                {
+                                    switch (Numero)
+                                    {
+                                        case 1:
+                                            try
+                                            {
+                                                Console.WriteLine("Please, insert your address:");
+                                                string address = Console.ReadLine();
+                                                Console.WriteLine("Please, insert name of city where aforementioned address locates:");
+                                                string city = Console.ReadLine();
+                                                Console.WriteLine("Please, insert the postal code of the nearest post office:");
+                                                string postalcode = Console.ReadLine();
+                                                Console.WriteLine("Please,enter your User Id");
+                                                int _userId = Convert.ToInt32(Console.ReadLine());
+                                                deliveryAddressService.Create(address, city, postalcode, _userId);
+                                            }
+                                            catch (Exception ex)
+                                            {
+                                                Console.WriteLine(ex.Message);
+                                                goto case 1;
+                                            }
+                                            break;
+
+                                        case 2:
+                                            try
+                                            {
+                                                Console.WriteLine("Please, insert the Id of delivery address that you want to delete:");
+                                                int _id = Convert.ToInt32(Console.ReadLine());
+                                                Console.WriteLine("Please, insert your User Id:");
+                                                int __userId = Convert.ToInt32(Console.ReadLine());
+                                                deliveryAddressService.Deactivate(_id, __userId);
+                                            }
+                                            catch (Exception ex)
+                                            {
+                                                Console.WriteLine(ex.Message);
+                                                goto case 2;
+                                            }
+                                            break;
+
+                                        case 3:
+                                            try
+                                            {
+                                                Console.WriteLine("Please, enter Card Name you want to add:");
+                                                string cardName = Console.ReadLine();
+                                                Console.WriteLine("Please, enter Card Number:");
+                                                string cardNumber = Console.ReadLine();
+                                                Console.WriteLine("Please, enter Card Balance:");
+                                                decimal cardBalance = Convert.ToDecimal(Console.ReadLine());
+                                                Console.WriteLine("Please, enter your User Id:");
+                                                int uuserId = Convert.ToInt32(Console.ReadLine());
+                                                walletService.Create(cardName, cardNumber, cardBalance, uuserId);
+                                            }
+                                            catch (Exception ex)
+                                            {
+                                                Console.WriteLine(ex.Message);
+                                                goto case 3;
+                                            }
+                                            break;
+
+                                        case 4:
+                                            try
+                                            {
+                                                Console.WriteLine("Please, enter Card Number:");
+                                                string cardNumber = Console.ReadLine();
+                                                Console.WriteLine("Please, enter your User Id:");
+                                                int userId_ = Convert.ToInt32(Console.ReadLine());
+                                                Console.WriteLine("Please, enter the amount you want to add into your card:");
+                                                decimal amount = Convert.ToDecimal(Console.ReadLine());
+                                                walletService.Update(cardNumber, userId_, amount);
+                                            }
+                                            catch (Exception ex)
+                                            {
+                                                Console.WriteLine(ex.Message);
+                                                goto case 4;
+                                            }
+                                            break;
+
+                                        case 5:
+                                            try
+                                            {
+                                                Console.WriteLine("Please, enter Card Number:");
+                                                string cardNumber = Console.ReadLine();
+                                                Console.WriteLine("Please, enter your User Id:");
+                                                int userid = Convert.ToInt32(Console.ReadLine());
+                                                walletService.Delete(cardNumber, userid);
+                                            }
+                                            catch (Exception ex)
+                                            {
+                                                Console.WriteLine(ex.Message);
+                                                goto case 5;
+                                            }
+                                            break;
+
+                                        case 6:
+                                            try
+                                            {
+                                                Console.WriteLine("Please, take your basket in order to add the products into your basket");
+                                                Console.WriteLine("Please, enter your Id");
+                                                int _userId = Convert.ToInt32(Console.ReadLine());
+                                                basketService.Create(_userId);
+                                            }
+                                            catch (Exception ex)
+                                            {
+                                                Console.WriteLine(ex.Message);
+                                                goto case 6;
+                                            }
+                                            break;
+
+                                        case 7:
+                                            Console.WriteLine("All products:");
+                                            Console.WriteLine("----------------------------------------------------------------------");
+                                            productService.ShowAll();
+                                            break;
+
+                                        case 8:
+                                            try
+                                            {
+                                                Console.WriteLine("Look at the all products and add into your basket whichever you want to buy:");
+                                                productService.ShowAll();
+                                                Console.WriteLine("Please, enter your Basket Id");
+                                                int basketId = Convert.ToInt32(Console.ReadLine());
+                                                Console.WriteLine("Please, enter Product Ids which ones you want to buy:");
+                                                int productId = Convert.ToInt32(Console.ReadLine());
+                                                Console.WriteLine("Please, enter the quantity of the selected product");
+                                                int quantity = Convert.ToInt32(Console.ReadLine());
+                                                basketProductService.AddProductToBasket(basketId, productId, quantity);
+                                            }
+                                            catch (Exception ex)
+                                            {
+                                                Console.WriteLine(ex.Message);
+                                                goto case 8;
+                                            }
+                                            break;
+
+                                        case 9:
+                                            try
+                                            {
+                                                Console.WriteLine("Welcome to the payment session");
+                                                Console.WriteLine("Please, enter your User Id");
+                                                int _userId_ = Convert.ToInt32(Console.ReadLine());
+                                                Console.WriteLine("Please, enter your Basket Id");
+                                                int basketId = Convert.ToInt32(Console.ReadLine());
+                                                Console.WriteLine("Please, enter your Wallet Id you want to pay with");
+                                                int walletId = Convert.ToInt32(Console.ReadLine());
+                                                invoiceService.CreateInvoice(_userId_, basketId, walletId);
+                                            }
+                                            catch (Exception ex)
+                                            {
+                                                Console.WriteLine(ex.Message);
+                                                goto case 9;
+                                            }
+                                            break;
+
+                                        case 10:
+                                            Console.WriteLine("Please, enter your User Id");
+                                            int userId = Convert.ToInt32(Console.ReadLine());
+                                            walletService.ShowAllWallets(userId);
+                                            Console.WriteLine("All Wallets");
+                                            Console.WriteLine("----------------------------------------");
+                                            break;
+
+                                        default:
+                                            keeping = false;
+                                            break;
+                                    }
+
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Please, choose the one of available option numbers!");
+                                }
+                            }
+                            else
+                            {
+                                Console.WriteLine("Please, enter correct format!");
+                            }
+                        }
                     }
                     catch (Exception ex)
                     {

@@ -14,35 +14,44 @@ public class DeliveryAddressService : IDeliveryAdressServices
     {
         _dbContext = dbContext;
     }
-    public void Create(string address, string city, string postalcode)
+    public void Create(string address, string city, string postalcode,int _userId)
     {
         DeliveryAddress dbDeliveryAdress = _dbContext.DeliveryAddresses.FirstOrDefault(da => da.Address.ToLower() == address.ToLower());
         throw new AlreadyExistException($"{address} is already exist");
 
-        DeliveryAddress deliveryAddress = new();
+        DeliveryAddress deliveryAddress = new()
+        {
+            Address = address,
+            City = city,
+            PostalCode = postalcode,
+            UserId = _userId
+        };
         _dbContext.DeliveryAddresses.Add(deliveryAddress);
         _dbContext.SaveChanges();
         Console.WriteLine($"{deliveryAddress} has successfully been mentioned!!!");
     }
 
-    public void Deactivate(int _id)
+    public void Deactivate(int _id, int __userId)
     {
         DeliveryAddress dbDeliveryAdress = _dbContext.DeliveryAddresses.FirstOrDefault(da => da.Id != _id);
-        throw new NotFoundException($"{_id} is not found");
+        if(dbDeliveryAdress is null)
+        throw new NotFoundException($"{dbDeliveryAdress.Id} is not found");
 
         foreach (DeliveryAddress deliveryAddress in _dbContext.DeliveryAddresses)
         {
             deliveryAddress.Id = _id;
+            deliveryAddress.UserId = __userId;
             deliveryAddress.isDelete = true;
             _dbContext.SaveChanges();
-            Console.WriteLine($"Address with {_id} ID has been deactivated!!!");
+            Console.WriteLine($"Address with {_id} ID has been deleted!!!");
         }
     }
 
     public void Delete(int _id)
     {
         DeliveryAddress dbDeliveryAdress = _dbContext.DeliveryAddresses.FirstOrDefault(da => da.Id != _id);
-        throw new NotFoundException($"{_id} is not found");
+        if(dbDeliveryAdress is null)
+        throw new NotFoundException($"{dbDeliveryAdress.Id} is not found");
 
         foreach (DeliveryAddress deliveryAddress in _dbContext.DeliveryAddresses)
         {

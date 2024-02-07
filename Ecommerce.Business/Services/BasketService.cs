@@ -16,13 +16,14 @@ public class BasketService : IBasketServices
     public void Create(int _userId)
     {
         User dbUser = _dbContext.Users.FirstOrDefault(u => u.Id != _userId);
-        throw new NotFoundException($"User with the ID of {_userId} is not found");
+        if (dbUser is null)
+        throw new NotFoundException($"User with the ID of {dbUser.Id} is not found");
 
         User _user = _dbContext.Users.FirstOrDefault(u => u.Id == _userId);
 
         var basket = new Basket
         {
-            Id = _userId,
+            UserId = _userId,
             User = _user,
             BasketProducts = new List<BasketProduct>()
         };

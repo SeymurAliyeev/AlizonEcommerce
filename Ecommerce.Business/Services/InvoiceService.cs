@@ -1,23 +1,24 @@
-﻿using Ecommerce.Business.Utilities.Exceptions;
+﻿using Ecommerce.Business.Interfaces;
+using Ecommerce.Business.Utilities.Exceptions;
 using Ecommerce.Core.Entities;
 using Ecommerce.DataAccess.Contexts;
 using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce.Business.Services;
 
-public class InvoiceService
+public class InvoiceService: IInvoiceServices
 {
     private readonly AlizonDbContext _dbContext;
     public InvoiceService(AlizonDbContext dbContext)
     {
         _dbContext = dbContext;
     }
-    public void CreateInvoice(int userId, int basketId, int walletId)
+    public void CreateInvoice(int _userId_, int basketId, int walletId)
     {
         var user = _dbContext.Users
             .Include(u => u.Basket)
             .Include(u => u.Wallets)
-            .FirstOrDefault(u => u.Id == userId);
+            .FirstOrDefault(u => u.Id == _userId_);
 
         if (user != null)
         {
@@ -31,7 +32,7 @@ public class InvoiceService
                 throw new NotFoundException($"{walletId} is not found");
                 var invoice = new Invoice
                 {
-                    UserId = userId,
+                    UserId = _userId_,
                     CreateTime = DateTime.Now,
                     InvoiceStatus = "Unpaid",
                     ProductInvoices = new List<ProductInvoice>()
@@ -47,7 +48,7 @@ public class InvoiceService
 
                     var _invoice = new Invoice
                     {
-                        UserId = userId,
+                        UserId = _userId_,
                         CreateTime = DateTime.Now,
                         InvoiceStatus = "Paid",
                         ProductInvoices = new List<ProductInvoice>()
@@ -75,7 +76,7 @@ public class InvoiceService
                 {
                     var __invoice = new Invoice
                     {
-                        UserId = userId,
+                        UserId = _userId_,
                         CreateTime = DateTime.Now,
                         InvoiceStatus = "Unpaid",
                         ProductInvoices = new List<ProductInvoice>()
@@ -89,7 +90,7 @@ public class InvoiceService
             {
                 var invoice1 = new Invoice
                 {
-                    UserId = userId,
+                    UserId = _userId_,
                     CreateTime = DateTime.Now,
                     InvoiceStatus = "Canceled",
                     ProductInvoices = new List<ProductInvoice>()
@@ -103,14 +104,14 @@ public class InvoiceService
         {
             var invoice2 = new Invoice
             {
-                UserId = userId,
+                UserId = _userId_,
                 CreateTime = DateTime.Now,
                 InvoiceStatus = "Canceled",
                 ProductInvoices = new List<ProductInvoice>()
             };
             _dbContext.Invoices.Add(invoice2);
             _dbContext.SaveChanges();
-            Console.WriteLine($"User with the ID of {userId} is not found.");
+            Console.WriteLine($"User with the ID of {_userId_} is not found.");
         }
     }
 

@@ -64,6 +64,7 @@ public class UserService : IUserServices
             {
                 user.UserName = username;
                 user.UserPassword = password;
+                user.isDelete = false;
                 Console.WriteLine("Welcome to Alizon Express");
             }
         }
@@ -82,6 +83,7 @@ public class UserService : IUserServices
             {
                 user.UserName = _username;
                 user.UserPassword = _password;
+                user.isDelete = false;
                 Console.WriteLine("Welcome to Alizon Express");
             }
         }

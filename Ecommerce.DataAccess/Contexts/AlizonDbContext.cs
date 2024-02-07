@@ -7,7 +7,7 @@ public class AlizonDbContext : DbContext
 {
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseSqlServer(@"Server=.;Database=AlizonEcommerce;Trusted_Connection=true;TrustServerCertificate=true;");
+        optionsBuilder.UseSqlServer(@"Server=.;Database=AlizonEcommberce;Trusted_Connection=true;TrustServerCertificate=true;");
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
