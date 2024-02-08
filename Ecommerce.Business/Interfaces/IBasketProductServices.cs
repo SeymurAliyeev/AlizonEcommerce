@@ -2,5 +2,5 @@
 
 public interface IBasketProductServices
 {
-    void AddProductToBasket(int basketId,int productId,int quantity);
+    void AddProductToBasketAsync(int basketId,int productId,int quantity);
 }

@@ -19,11 +19,11 @@ public class WalletService : IWalletServices
         if (String.IsNullOrEmpty(cardNumber)) throw new ArgumentNullException();
         Wallet dbWallet = await _dbContext.Wallets.FirstOrDefaultAsync(w => w.CardNumber.ToLower() == cardName.ToLower());
         if (dbWallet is not null)
-        throw new AlreadyExistException($"{dbWallet.CardName} is already exist");
+            throw new AlreadyExistException($"{dbWallet.CardName} is already exist");
 
         User dbUser = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id != uuserId);
-        if( dbUser is null)
-        throw new NotFoundException($"{dbUser.Id} is not found");
+        if (dbUser is null)
+            throw new NotFoundException($"{dbUser.Id} is not found");
 
 
         Wallet wallet = new()
@@ -38,37 +38,42 @@ public class WalletService : IWalletServices
         Console.WriteLine($"{wallet} has successfully been added into your profile");
     }
 
-    public void Delete(string cardNumber, int userid)
+    public void Delete(string cardNumber, int _userId)
     {
-        User dbUser = _dbContext.Users.FirstOrDefault(u => u.Id == userid);
-        throw new NotFoundException($"{userid} is not found");
-
-        Wallet dbWallet = _dbContext.Wallets.FirstOrDefault(w => w.CardNumber.ToLower() != cardNumber.ToLower());
-        throw new NotFoundException($"{cardNumber} is not found");
-
-        foreach (Wallet wallet in _dbContext.Wallets)
+        User? dbUser = _dbContext.Users.FirstOrDefault(u => u.Id == _userId);
+        if (dbUser == null)
         {
-            wallet.CardNumber = cardNumber;
-            wallet.UserId = userid;
-            _dbContext.Wallets.Remove(wallet);
-            dbUser.Wallets.Remove(wallet);
-            _dbContext.SaveChanges();
-            Console.WriteLine($"{wallet} is deleted");
+            throw new NotFoundException($"{_userId} is not found");
         }
+
+        Wallet? dbWallet = _dbContext.Wallets.FirstOrDefault(w =>
+            w.CardNumber.ToLower() == cardNumber.ToLower() && w.UserId == _userId);
+
+        if (dbWallet == null)
+        {
+            throw new NotFoundException($"{cardNumber} is not found");
+        }
+
+        _dbContext.Wallets.Remove(dbWallet);
+        _dbContext.SaveChanges();
+
+        Console.WriteLine($"Wallet with the number of {cardNumber} is deleted");
     }
 
-    public void Update(string cardNumber, int userId_, decimal amount)
+    public async void UpdateAsync(string cardNumber, int userId_, decimal amount)
     {
-        Wallet dbWallet = _dbContext.Wallets.FirstOrDefault(w => w.CardNumber.ToLower() != cardNumber.ToLower());
-        throw new NotFoundException($"{cardNumber} is not found");
-
         var wallet = _dbContext.Wallets.FirstOrDefault(w => w.CardNumber.ToLower() == cardNumber.ToLower());
 
-        if (wallet.UserId == userId_ && amount>0)
+        if (wallet == null)
+        {
+            throw new NotFoundException($"{cardNumber} is not found");
+        }
+
+        if (wallet.UserId == userId_ && amount > 0)
         {
             wallet.CardBalance += amount;
-            _dbContext.SaveChanges();
-            Console.WriteLine($"Your balance has successfully been increased");
+            await _dbContext.SaveChangesAsync();
+            Console.WriteLine($"Your balance has successfully been updated");
         }
     }
 
@@ -78,8 +83,7 @@ public class WalletService : IWalletServices
         {
             wallet.isDelete = false;
             wallet.UserId = userId;
-            Console.WriteLine($"All Wallets of the User with the Id of {userId}:\n" +
-                               $"{wallet.CardName};  {wallet.CardNumber};  {wallet.CardBalance};  {wallet.User};  {wallet.CreateTime};");
+            Console.WriteLine($"{wallet.CardName};  {wallet.CardNumber};  {wallet.CardBalance};  {wallet.UserId};  {wallet.CreateTime};");
         }
     }
 }

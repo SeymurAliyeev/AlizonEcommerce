@@ -125,7 +125,6 @@ public class InvoiceService: IInvoiceServices
 
         if (invoices.Any())
         {
-            Console.WriteLine("All Invoices:");
 
             foreach (var invoice in invoices)
             {

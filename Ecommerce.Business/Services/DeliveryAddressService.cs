@@ -33,45 +33,57 @@ public class DeliveryAddressService : IDeliveryAdressServices
         Console.WriteLine($"{deliveryAddress} has successfully been mentioned!!!");
     }
 
-    public void Deactivate(int _id, int __userId)
+    public void Deactivate(string address)
     {
-        DeliveryAddress dbDeliveryAdress = _dbContext.DeliveryAddresses.FirstOrDefault(da => da.Id != _id);
+        DeliveryAddress? dbDeliveryAdress = _dbContext.DeliveryAddresses.FirstOrDefault(da => da.Address != address);
         if(dbDeliveryAdress is null)
-        throw new NotFoundException($"{dbDeliveryAdress.Id} is not found");
-
-        foreach (DeliveryAddress deliveryAddress in _dbContext.DeliveryAddresses)
+        throw new NotFoundException($"{dbDeliveryAdress.Address} is not found");
+        if (dbDeliveryAdress is not null)
         {
-            deliveryAddress.Id = _id;
-            deliveryAddress.UserId = __userId;
-            deliveryAddress.isDelete = true;
-            _dbContext.SaveChanges();
-            Console.WriteLine($"Address with {_id} ID has been deleted!!!");
+            foreach (DeliveryAddress deliveryAddress in _dbContext.DeliveryAddresses)
+            {
+                deliveryAddress.Address = address;
+                _dbContext.DeliveryAddresses.Remove(deliveryAddress);
+                _dbContext.SaveChanges();
+                Console.WriteLine($"Address with {address} ID has been deleted!!!");
+            }
         }
     }
 
-    public void Delete(int _id)
+    public async void DeleteAsync(int _id)
     {
-        DeliveryAddress dbDeliveryAdress = _dbContext.DeliveryAddresses.FirstOrDefault(da => da.Id != _id);
-        if(dbDeliveryAdress is null)
-        throw new NotFoundException($"{dbDeliveryAdress.Id} is not found");
+        DeliveryAddress? dbDeliveryAddress = _dbContext.DeliveryAddresses.FirstOrDefault(da => da.Id == _id);
 
-        foreach (DeliveryAddress deliveryAddress in _dbContext.DeliveryAddresses)
+        if (dbDeliveryAddress == null)
         {
-            deliveryAddress.Id = _id;
-            _dbContext.DeliveryAddresses.Remove(deliveryAddress);
-            _dbContext.SaveChanges();
-            Console.WriteLine($"Address with {_id} ID has been deleted!!!");
+            throw new NotFoundException($"{_id} is not found");
         }
+
+        _dbContext.DeliveryAddresses.Remove(dbDeliveryAddress);
+        await _dbContext.SaveChangesAsync();
+
+        Console.WriteLine($"Address with the ID of {_id} has been deleted!!!");
     }
 
-    public void ShowAll()
+    public async void ShowAllAsync(int _userId)
     {
 
         foreach (DeliveryAddress deliveryAddress in _dbContext.DeliveryAddresses )
         {
+            deliveryAddress.UserId=_userId;
             deliveryAddress.isDelete=false;
-            Console.WriteLine($"All Delivery Addresses:\n" +
-                               $"{deliveryAddress.User};  {deliveryAddress.Address};  {deliveryAddress.City};  {deliveryAddress.PostalCode};");
+            await _dbContext.SaveChangesAsync();
+            Console.WriteLine($"{deliveryAddress.Id};  {deliveryAddress.Address};  {deliveryAddress.City};  {deliveryAddress.PostalCode};{deliveryAddress.UserId}; ");
+        }
+    }
+
+    public void ShowAllAddresses()
+    {
+
+        foreach (DeliveryAddress deliveryAddress in _dbContext.DeliveryAddresses)
+        {
+            deliveryAddress.isDelete = false;
+            Console.WriteLine($"{deliveryAddress.Id};  {deliveryAddress.Address};  {deliveryAddress.City};  {deliveryAddress.PostalCode}; {deliveryAddress.UserId};");
         }
     }
 
@@ -80,8 +92,7 @@ public class DeliveryAddressService : IDeliveryAdressServices
         foreach (DeliveryAddress deliveryAddress in _dbContext.DeliveryAddresses)
         {
             deliveryAddress.isDelete = true;
-            Console.WriteLine($"All Deleted Delivery Addresses:\n" +
-                               $"{deliveryAddress.User};  {deliveryAddress.Address};  {deliveryAddress.City};  {deliveryAddress.PostalCode};");
+            Console.WriteLine( $"{deliveryAddress.User};  {deliveryAddress.Address};  {deliveryAddress.City};  {deliveryAddress.PostalCode};");
         }
     }
 }

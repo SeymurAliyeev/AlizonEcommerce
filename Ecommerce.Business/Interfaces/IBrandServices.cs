@@ -2,8 +2,8 @@
 
 public interface IBrandServices
 {
-    void CreateAsync(string brandName);
-    void DeleteAsync(string brandName);
-    void DeactivateAsync(string brandName);
+    Task CreateAsync(string brandName);
+    void Delete(string brandName);
+    Task DeactivateAsync(string brandName);
     public void ShowAll();
 }

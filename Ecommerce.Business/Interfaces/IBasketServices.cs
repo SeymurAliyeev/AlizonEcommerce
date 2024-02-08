@@ -2,7 +2,8 @@
 
 public interface IBasketServices
 {
-    void Create(int _userId);
+    void CreateAsync(int _userId);
     void Delete(int _userId);
+    void ShowAllBasketsAsync(int userId);
 
 }

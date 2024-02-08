@@ -3,6 +3,7 @@ using Ecommerce.Business.Utilities.Exceptions;
 using Ecommerce.Core.Entities;
 using Ecommerce.DataAccess.Contexts;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace Ecommerce.Business.Services;
 
@@ -13,59 +14,72 @@ public class ProductService : IProductServices
     {
         _dbContext = dbContext;
     }
-    public void Create(string name, decimal price, string description, int stockCount, string categoryName, string brandName)
+    public async void Create(string name, decimal price, string description, int stockCount, string categoryName, string brandName)
     {
-        Product dbProduct = _dbContext.Products.FirstOrDefault(p => p.Name.ToLower() == name.ToLower());
+
+        Product? dbProduct = _dbContext.Products.FirstOrDefault(p => p.Name.ToLower() == name.ToLower());
         if (dbProduct is not null)
-        throw new AlreadyExistException($"{dbProduct.Name} is already exist");
+        {
+            throw new AlreadyExistException($"{dbProduct.Name} is already exist");
+        }
 
-        Category category = _dbContext.Categories.FirstOrDefault(c => c.Name.ToLower() != categoryName.ToLower());
-        if (category is null)
-        throw new NotFoundException($"{category.Name} is not found");
+        Category? _category = _dbContext.Categories.FirstOrDefault(c => c.Name.ToLower() == categoryName.ToLower());
+        if (_category is null)
+        {
+            throw new NotFoundException($"{categoryName} is not found");
+        }
 
-        Brand brand = _dbContext.Brands.FirstOrDefault(b => b.Name.ToLower() != brandName.ToLower());
-        if (brand is null)
-        throw new NotFoundException($"{brand.Name} is not found");
+        Brand? _brand = _dbContext.Brands.FirstOrDefault(b => b.Name.ToLower() == brandName.ToLower());
+        if (_brand is null)
+        {
+            throw new NotFoundException($"{brandName} is not found");
+        }
 
-        Category _category = _dbContext.Categories.FirstOrDefault(c => c.Name.ToLower() == categoryName.ToLower());
-        Brand _brand = _dbContext.Brands.FirstOrDefault(b => b.Name.ToLower() == brandName.ToLower());
+        Product product = new()
+        {
+            Name = name,
+            Price = price,
+            Description = description,
+            StockCount = stockCount,
+            Category = _category,
+            Brand = _brand
+        };
 
-        Product product = new();
-        _dbContext.Products.Add(product);
-        _category.Products.Add(product);
-        _brand.Products.Add(product);
-        _dbContext.SaveChanges();
-        Console.WriteLine($"Product with the name of {product} has successfully been created!!!");
+        await _dbContext.Products.AddAsync(product);
+        await _dbContext.SaveChangesAsync();
+
+        Console.WriteLine($"Product with the name of {product.Name} has successfully been created!!!");
     }
+
 
     public void Deactivate(string name)
     {
-        Product dbProduct = _dbContext.Products.FirstOrDefault(p => p.Name.ToLower() != name.ToLower());
-        if (dbProduct is null)
-        throw new NotFoundException($"{name} is not found");
+        Product? dbProduct = _dbContext.Products.FirstOrDefault(p => p.Name.ToLower() == name.ToLower());
 
-        foreach (Product product in _dbContext.Products)
+        if (dbProduct is null)
         {
-            product.Name = name;
-            product.isDelete = true;
-            _dbContext.SaveChanges();
-            Console.WriteLine($"{product} has been deactivated!!!");
+            throw new NotFoundException($"{name} is not found");
         }
+
+        dbProduct.isDelete = true;
+        _dbContext.SaveChanges();
+
+        Console.WriteLine($"{dbProduct.Name} has been deactivated!!!");
     }
 
     public void Delete(string name)
     {
-        Product dbProduct = _dbContext.Products.FirstOrDefault(p => p.Name.ToLower() != name.ToLower());
-        if (dbProduct is null)
-        throw new NotFoundException($"{name} is not found");
+        Product? dbProduct = _dbContext.Products.FirstOrDefault(p => p.Name.ToLower() == name.ToLower());
 
-        foreach (Product product in _dbContext.Products)
+        if (dbProduct is null)
         {
-            product.Name = name;
-            _dbContext.Products.Remove(product);
-            _dbContext.SaveChanges();
-            Console.WriteLine($"{product} has been deleted!!!");
+            throw new NotFoundException($"{name} is not found");
         }
+
+        _dbContext.Products.Remove(dbProduct);
+        _dbContext.SaveChanges();
+
+        Console.WriteLine($"{dbProduct.Name} has been deleted!!!");
     }
 
     public void ShowAll()
@@ -73,8 +87,7 @@ public class ProductService : IProductServices
         foreach (Product product in _dbContext.Products)
         {
             product.isDelete = false;
-            Console.WriteLine($"All Products:\n"+
-                               $"{product.Name};  {product.Price};  {product.StockCount};  {product.Category};  {product.Brand};  {product.Discount};");
+            Console.WriteLine($"Product name:  {product.Name};  Price:  {product.Price};  Stock count:  {product.StockCount};  Category Id:  {product.CategoryId};  Product Id: {product.BrandId};  Discount: {product.Discount};");
         }
     }
 
@@ -83,26 +96,26 @@ public class ProductService : IProductServices
         foreach (Product product in _dbContext.Products)
         {
             product.isDelete = true;
-            Console.WriteLine($"All Deactivated Products:\n" +
-                               $"{product.Name};  {product.Price};  {product.StockCount};  {product.Category};  {product.Brand};  {product.Discount};");
+            Console.WriteLine($"{product.Name};  {product.Price};  {product.StockCount};  {product.Category};  {product.Brand};  {product.Discount};");
         }
     }
 
 
     public void Update(string name, decimal newprice, int addcount)
     {
-        Product dbProduct = _dbContext.Products.FirstOrDefault(p => p.Name.ToLower() != name.ToLower());
+        Product? dbProduct = _dbContext.Products.FirstOrDefault(p => p.Name.ToLower() == name.ToLower());
+
         if (dbProduct is null)
-        throw new NotFoundException($"{dbProduct.Name} is not found");
-
-        var product = _dbContext.Products.FirstOrDefault(p => p.Name.ToLower() == name.ToLower());
-
-        if (newprice>0 && addcount >= 0)
         {
-            product.Price = newprice;
-            product.StockCount += addcount;
+            throw new NotFoundException($"{name} is not found");
+        }
+
+        if (newprice > 0 && addcount >= 0)
+        {
+            dbProduct.Price = newprice;
+            dbProduct.StockCount += addcount;
             _dbContext.SaveChanges();
-            Console.WriteLine($"Product has successfully been updated");
+            Console.WriteLine($"{dbProduct.Name} has successfully been updated");
         }
     }
 }

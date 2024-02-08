@@ -17,9 +17,9 @@ public class AlizonDbContext : DbContext
             .IsUnique();
 
         modelBuilder.Entity<User>()
-
             .HasIndex(u => u.Email)
             .IsUnique();
+
         modelBuilder.Entity<User>()
             .HasIndex(u => u.Phone)
             .IsUnique();
@@ -36,13 +36,13 @@ public class AlizonDbContext : DbContext
             .HasIndex(da => da.Address)
             .IsUnique();
 
-        modelBuilder.Entity<Category>()
-            .HasIndex(c => c.Name)
-            .IsUnique();
+        //modelBuilder.Entity<Category>()
+        //    .HasIndex(c => c.Name)
+        //    .IsUnique();
 
-        modelBuilder.Entity<Brand>()
-            .HasIndex(b => b.Name)
-            .IsUnique();
+        //modelBuilder.Entity<Brand>()
+        //    .HasIndex(b => b.Name)
+        //    .IsUnique();
 
 
 
@@ -50,7 +50,7 @@ public class AlizonDbContext : DbContext
             .HasMany(u => u.DeliveryAddresses)
             .WithOne(da => da.User)
             .HasForeignKey(da => da.UserId)
-            .OnDelete(DeleteBehavior.NoAction);
+            .OnDelete(DeleteBehavior.Cascade);
 
         modelBuilder.Entity<User>()
             .HasMany(u => u.Wallets)
@@ -93,29 +93,32 @@ public class AlizonDbContext : DbContext
         modelBuilder.Entity<ProductInvoice>()
             .HasOne(pi => pi.Product)
             .WithMany(p => p.ProductInvoices)
-            .HasForeignKey(pi => pi.ProductId);
+            .HasForeignKey(pi => pi.ProductId)
+            .OnDelete(DeleteBehavior.NoAction);
 
         modelBuilder.Entity<ProductInvoice>()
             .HasOne(pi => pi.Invoice)
             .WithMany(i => i.ProductInvoices)
-            .HasForeignKey(pi => pi.InvoiceId);
+            .HasForeignKey(pi => pi.InvoiceId)
+            .OnDelete(DeleteBehavior.NoAction);
 
         modelBuilder.Entity<Category>()
             .HasMany(c => c.Products)
             .WithOne(p => p.Category)
             .HasForeignKey(p => p.CategoryId)
-            .OnDelete(DeleteBehavior.Cascade);
+            .OnDelete(DeleteBehavior.NoAction);
 
         modelBuilder.Entity<Brand>()
             .HasMany(b => b.Products)
             .WithOne(p => p.Brand)
             .HasForeignKey(p => p.BrandId)
-            .OnDelete(DeleteBehavior.Cascade);
+            .OnDelete(DeleteBehavior.NoAction);
 
         modelBuilder.Entity<Discount>()
             .HasMany(d => d.Products)
             .WithOne(p => p.Discount)
-            .HasForeignKey(p => p.DiscountId);
+            .HasForeignKey(p => p.DiscountId)
+            .OnDelete(DeleteBehavior.NoAction);
     }
 
     public DbSet<User> Users { get; set; } = null!;

@@ -63,14 +63,13 @@ while (keeplooping)
                                               "10  -  Delete Product\n" +
                                               "11 -  Show All Products\n" +
                                               "12  -  Show All Deactivated Products\n" +
-                                              "13 -  Create Discount for Product\n" +
-                                              "14  -  Show All Users\n" +
-                                              "15  -  Show All Deleted Users\n" +
-                                              "16  -  Deactivate User\n" +
-                                              "17  -  Delete User\n" +
-                                              "18  -  Show All Invoices\n" +
-                                              "19  -  Show All Delivery Addresses\n" +
-                                              "20  -  Show All Deleted Delivery Addresses\n" +
+                                              "13  -  Show All Users\n" +
+                                              "14  -  Show All Deleted Users\n" +
+                                              "15  -  Deactivate User\n" +
+                                              "16  -  Delete User\n" +
+                                              "17  -  Show All Invoices\n" +
+                                              "18  -  Show All Delivery Addresses\n" +
+                                              "19  -  Show All Deleted Delivery Addresses\n" +
                                               "0  -  Exit");
 
                             string? num = Console.ReadLine();
@@ -89,7 +88,7 @@ while (keeplooping)
                                                 string categoryName = Console.ReadLine();
                                                 categoryService.CreateAsync(categoryName);
                                             }
-                                            catch(Exception ex)
+                                            catch (Exception ex)
                                             {
                                                 Console.WriteLine(ex.Message);
                                             }
@@ -99,10 +98,13 @@ while (keeplooping)
                                             try
                                             {
                                                 Console.WriteLine("Please, enter category name:");
+                                                Console.WriteLine("All Categories:");
+                                                Console.WriteLine("---------------------------");
+                                                categoryService.ShowAll();
                                                 string categoryName = Console.ReadLine();
                                                 categoryService.DeleteAsync(categoryName);
                                             }
-                                            catch(Exception ex)
+                                            catch (Exception ex)
                                             {
                                                 Console.WriteLine(ex.Message);
                                             }
@@ -131,8 +133,11 @@ while (keeplooping)
                                             try
                                             {
                                                 Console.WriteLine("Please, enter brand name:");
+                                                Console.WriteLine("All Brands:");
+                                                Console.WriteLine("---------------------------");
+                                                brandService.ShowAll();
                                                 string brandName = Console.ReadLine();
-                                                brandService.DeleteAsync(brandName);
+                                                brandService.Delete(brandName);
                                             }
                                             catch (Exception ex)
                                             {
@@ -158,15 +163,21 @@ while (keeplooping)
                                                 Console.WriteLine("Please, enter product stock count:");
                                                 int stockCount = Convert.ToInt32(Console.ReadLine());
                                                 Console.WriteLine("Please, enter the category name of product:");
+                                                Console.WriteLine("All Categories:");
+                                                Console.WriteLine("---------------------------");
+                                                categoryService.ShowAll();
                                                 string categoryName = Console.ReadLine();
                                                 Console.WriteLine("Please, enter the brand name of product:");
+                                                Console.WriteLine("All Brands:");
+                                                Console.WriteLine("---------------------------");
+                                                brandService.ShowAll();
                                                 string brandName = Console.ReadLine();
                                                 productService.Create(name, price, description, stockCount, categoryName, brandName);
                                             }
                                             catch (Exception ex)
                                             {
                                                 Console.WriteLine(ex.Message);
-                                                goto case 1;
+                                                goto case 7;
                                             }
                                             break;
 
@@ -174,6 +185,9 @@ while (keeplooping)
                                             try
                                             {
                                                 Console.WriteLine("Please, enter product name:");
+                                                Console.WriteLine("All Products:");
+                                                Console.WriteLine("---------------------------");
+                                                productService.ShowAll();
                                                 string name = Console.ReadLine();
                                                 Console.WriteLine("Please, enter new product price:");
                                                 decimal newprice = Convert.ToDecimal(Console.ReadLine());
@@ -192,6 +206,9 @@ while (keeplooping)
                                             try
                                             {
                                                 Console.WriteLine("Please, enter product name:");
+                                                Console.WriteLine("All Products:");
+                                                Console.WriteLine("---------------------------");
+                                                productService.ShowAll();
                                                 string name = Console.ReadLine();
                                                 productService.Deactivate(name);
                                             }
@@ -206,6 +223,9 @@ while (keeplooping)
                                             try
                                             {
                                                 Console.WriteLine("Please, enter product name:");
+                                                Console.WriteLine("All Products:");
+                                                Console.WriteLine("---------------------------");
+                                                productService.ShowAll();
                                                 string name = Console.ReadLine();
                                                 productService.Delete(name);
                                             }
@@ -229,37 +249,24 @@ while (keeplooping)
                                             break;
 
                                         case 13:
-                                            try
-                                            {
-                                                Console.WriteLine("Please,enter product name to which you want to apply discount:");
-                                                string productName = Console.ReadLine();
-                                                Console.WriteLine("Please, enter the percentage of discount you want to apply for:");
-                                                decimal discountpercentage = Convert.ToDecimal(Console.ReadLine());
-                                                discountService.GetDiscountedPrice(productName, discountpercentage);
-                                            }
-                                            catch (Exception ex)
-                                            {
-                                                Console.WriteLine(ex.Message);
-                                                goto case 7;
-                                            }
-                                            break;
-
-                                        case 14:
                                             Console.WriteLine("All Users:");
                                             Console.WriteLine("---------------------------");
                                             userService.ShowAll();
                                             break;
 
-                                        case 15:
+                                        case 14:
                                             Console.WriteLine("All Deleted Users:");
                                             Console.WriteLine("---------------------------");
                                             userService.ShowAllDeletedUsers();
                                             break;
 
-                                        case 16:
+                                        case 15:
                                             try
                                             {
                                                 Console.WriteLine("Please, enter user name:");
+                                                Console.WriteLine("All Users:");
+                                                Console.WriteLine("---------------------------");
+                                                userService.ShowAll();
                                                 string username = Console.ReadLine();
                                                 userService.DeactivateUser(username);
                                             }
@@ -270,10 +277,13 @@ while (keeplooping)
                                             }
                                             break;
 
-                                        case 17:
+                                        case 16:
                                             try
                                             {
                                                 Console.WriteLine("Please, enter user name:");
+                                                Console.WriteLine("All Users:");
+                                                Console.WriteLine("---------------------------");
+                                                userService.ShowAll();
                                                 string __username = Console.ReadLine();
                                                 userService.DeleteUser(__username);
                                             }
@@ -284,19 +294,19 @@ while (keeplooping)
                                             }
                                             break;
 
-                                        case 18:
+                                        case 17:
                                             Console.WriteLine("All Invoices:");
                                             Console.WriteLine("---------------------------");
                                             invoiceService.ShowAll();
                                             break;
 
-                                        case 19:
+                                        case 18:
                                             Console.WriteLine("All Delivery Addresses:");
                                             Console.WriteLine("---------------------------");
-                                            deliveryAddressService.ShowAll();
+                                            deliveryAddressService.ShowAllAddresses();
                                             break;
 
-                                        case 20:
+                                        case 19:
                                             Console.WriteLine("All Deleted Delivery Addresses:");
                                             Console.WriteLine("---------------------------");
                                             deliveryAddressService.ShowAllDeactivated();
@@ -411,11 +421,13 @@ while (keeplooping)
                                         case 2:
                                             try
                                             {
-                                                Console.WriteLine("Please, insert the Id of delivery address that you want to delete:");
+                                                int _userId = userAccess.UserId;
+                                                Console.WriteLine("Please, insert the ID of delivery address that you want to delete:");
+                                                Console.WriteLine("All Delivery Addresses you have mentioned");
+                                                Console.WriteLine("----------------------------------------");
+                                                deliveryAddressService.ShowAllAsync(_userId);
                                                 int _id = Convert.ToInt32(Console.ReadLine());
-                                                Console.WriteLine("Please, insert your User Id:");
-                                                int __userId = Convert.ToInt32(Console.ReadLine());
-                                                deliveryAddressService.Deactivate(_id, __userId);
+                                                deliveryAddressService.DeleteAsync(_id);
                                             }
                                             catch (Exception ex)
                                             {
@@ -435,6 +447,7 @@ while (keeplooping)
                                                 decimal cardBalance = Convert.ToDecimal(Console.ReadLine());
                                                 int uuserId = userAccess.UserId;
                                                 walletService.CreateAsync(cardName, cardNumber, cardBalance, uuserId);
+                                                walletService.ShowAllWallets(uuserId);
                                             }
                                             catch (Exception ex)
                                             {
@@ -446,13 +459,15 @@ while (keeplooping)
                                         case 4:
                                             try
                                             {
+                                                Console.WriteLine("All your wallets: Please, choose one of them that you want to update:");
+                                                Console.WriteLine("--------------------------------------------");
+                                                int userId_ = userAccess.UserId;
+                                                walletService.ShowAllWallets(userId_);
                                                 Console.WriteLine("Please, enter Card Number:");
                                                 string cardNumber = Console.ReadLine();
-                                                Console.WriteLine("Please, enter your User Id:");
-                                                int userId_ = Convert.ToInt32(Console.ReadLine());
                                                 Console.WriteLine("Please, enter the amount you want to add into your card:");
                                                 decimal amount = Convert.ToDecimal(Console.ReadLine());
-                                                walletService.Update(cardNumber, userId_, amount);
+                                                walletService.UpdateAsync(cardNumber, userId_, amount);
                                             }
                                             catch (Exception ex)
                                             {
@@ -464,11 +479,13 @@ while (keeplooping)
                                         case 5:
                                             try
                                             {
+                                                Console.WriteLine("All your wallets: Please, choose one of them that you want to delete:");
+                                                Console.WriteLine("--------------------------------------------");
+                                                int _userId = userAccess.UserId;
+                                                walletService.ShowAllWallets(_userId);
                                                 Console.WriteLine("Please, enter Card Number:");
                                                 string cardNumber = Console.ReadLine();
-                                                Console.WriteLine("Please, enter your User Id:");
-                                                int userid = Convert.ToInt32(Console.ReadLine());
-                                                walletService.Delete(cardNumber, userid);
+                                                walletService.Delete(cardNumber, _userId);
                                             }
                                             catch (Exception ex)
                                             {
@@ -480,10 +497,9 @@ while (keeplooping)
                                         case 6:
                                             try
                                             {
-                                                Console.WriteLine("Please, take your basket in order to add the products into your basket");
-                                                Console.WriteLine("Please, enter your Id");
-                                                int _userId = Convert.ToInt32(Console.ReadLine());
-                                                basketService.Create(_userId);
+                                                int _userId = userAccess.UserId;
+                                                basketService.CreateAsync(_userId);
+                                                Console.WriteLine("Your basket is ready to be filled");
                                             }
                                             catch (Exception ex)
                                             {
@@ -501,15 +517,19 @@ while (keeplooping)
                                         case 8:
                                             try
                                             {
-                                                Console.WriteLine("Look at the all products and add into your basket whichever you want to buy:");
-                                                productService.ShowAll();
                                                 Console.WriteLine("Please, enter your Basket Id");
+                                                Console.WriteLine("All your baskets");
+                                                int userid = userAccess.UserId;
+                                                basketService.ShowAllBasketsAsync(userid);
                                                 int basketId = Convert.ToInt32(Console.ReadLine());
                                                 Console.WriteLine("Please, enter Product Ids which ones you want to buy:");
+                                                Console.WriteLine("All products:");
+                                                Console.WriteLine("----------------------------------------------------------------------");
+                                                productService.ShowAll();
                                                 int productId = Convert.ToInt32(Console.ReadLine());
                                                 Console.WriteLine("Please, enter the quantity of the selected product");
                                                 int quantity = Convert.ToInt32(Console.ReadLine());
-                                                basketProductService.AddProductToBasket(basketId, productId, quantity);
+                                                basketProductService.AddProductToBasketAsync(basketId, productId, quantity);
                                             }
                                             catch (Exception ex)
                                             {
@@ -522,11 +542,16 @@ while (keeplooping)
                                             try
                                             {
                                                 Console.WriteLine("Welcome to the payment session");
-                                                Console.WriteLine("Please, enter your User Id");
-                                                int _userId_ = Convert.ToInt32(Console.ReadLine());
+                                                int _userId_ = userAccess.UserId;
                                                 Console.WriteLine("Please, enter your Basket Id");
+                                                Console.WriteLine("All your baskets:");
+                                                Console.WriteLine("--------------------------------------------");
+                                                basketService.ShowAllBasketsAsync(_userId_);
                                                 int basketId = Convert.ToInt32(Console.ReadLine());
                                                 Console.WriteLine("Please, enter your Wallet Id you want to pay with");
+                                                Console.WriteLine("All your wallets:");
+                                                Console.WriteLine("--------------------------------------------");
+                                                walletService.ShowAllWallets(_userId_);
                                                 int walletId = Convert.ToInt32(Console.ReadLine());
                                                 invoiceService.CreateInvoice(_userId_, basketId, walletId);
                                             }
@@ -538,11 +563,10 @@ while (keeplooping)
                                             break;
 
                                         case 10:
-                                            Console.WriteLine("Please, enter your User Id");
-                                            int userId = Convert.ToInt32(Console.ReadLine());
-                                            walletService.ShowAllWallets(userId);
-                                            Console.WriteLine("All Wallets");
+                                            int userId = userAccess.UserId;
+                                            Console.WriteLine("All Your Wallets");
                                             Console.WriteLine("----------------------------------------");
+                                            walletService.ShowAllWallets(userId);
                                             break;
 
                                         default:

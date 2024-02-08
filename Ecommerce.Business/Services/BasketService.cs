@@ -13,13 +13,13 @@ public class BasketService : IBasketServices
         _dbContext = dbContext;
     }
 
-    public void Create(int _userId)
+    public async void CreateAsync(int _userId)
     {
         User dbUser = _dbContext.Users.FirstOrDefault(u => u.Id != _userId);
         if (dbUser is null)
         throw new NotFoundException($"User with the ID of {dbUser.Id} is not found");
 
-        User _user = _dbContext.Users.FirstOrDefault(u => u.Id == _userId);
+        User? _user = _dbContext.Users.FirstOrDefault(u => u.Id == _userId);
 
         var basket = new Basket
         {
@@ -27,8 +27,8 @@ public class BasketService : IBasketServices
             User = _user,
             BasketProducts = new List<BasketProduct>()
         };
-        _dbContext.Baskets.Add(basket);
-        _dbContext.SaveChanges();
+        await _dbContext.Baskets.AddAsync(basket);
+        await _dbContext.SaveChangesAsync();
     }
 
     public void Delete(int _basketId)
@@ -40,5 +40,15 @@ public class BasketService : IBasketServices
         _dbContext.Baskets.Remove(basket);
         _dbContext.SaveChanges();
         Console.WriteLine($"Basket with the ID of {_basketId} has been deleted");
+    }
+
+    public async void ShowAllBasketsAsync(int userId)
+    {
+        foreach (Basket basket in _dbContext.Baskets)
+        {
+            basket.isDelete = false;
+            basket.UserId = userId;
+            Console.WriteLine($"{basket.Id};  {basket.BasketProducts};  {basket.UserId};");
+        }
     }
 }

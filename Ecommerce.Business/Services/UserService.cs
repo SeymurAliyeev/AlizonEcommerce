@@ -92,39 +92,38 @@ public class UserService : IUserServices
         foreach (User user in _dbContext.Users)
         {
             user.isDelete = false;
-            Console.WriteLine($"All Users:\n" +
-                               $"{user.Name};  {user.Surname};  {user.Phone};  {user.Email};  {user.CreateTime};");
+            Console.WriteLine($"{user.Name};  {user.Surname};  {user.Phone};  {user.Email};  {user.CreateTime};");
         }
     }
 
     public void DeactivateUser(string username)
     {
-        User dbUser = _dbContext.Users.FirstOrDefault(u => u.UserName.ToLower() != username.ToLower());
-        if (dbUser is null)
-            throw new NotFoundException($"{dbUser.UserName} is not found");
+        User? dbUser = _dbContext.Users.FirstOrDefault(u => u.UserName.ToLower() == username.ToLower());
 
-        foreach (User user in _dbContext.Users)
+        if (dbUser is null)
         {
-            user.UserName = username;
-            user.isDelete = true;
-            _dbContext.SaveChanges();
-            Console.WriteLine($"{user} has been deactivated!!!");
+            throw new NotFoundException($"{username} is not found");
         }
+
+        dbUser.isDelete = true;
+        _dbContext.SaveChanges();
+
+        Console.WriteLine($"{dbUser.UserName} has been deactivated!!!");
     }
 
     public void DeleteUser(string __username)
     {
-        User dbUser = _dbContext.Users.FirstOrDefault(u => u.UserName.ToLower() != __username.ToLower());
-        if (dbUser is null)
-            throw new NotFoundException($"{dbUser.UserName} is not found");
+        User dbUser = _dbContext.Users.FirstOrDefault(u => u.UserName.ToLower() == __username.ToLower());
 
-        foreach (User user in _dbContext.Users)
+        if (dbUser is null)
         {
-            user.UserName = __username;
-            _dbContext.Users.Remove(user);
-            _dbContext.SaveChanges();
-            Console.WriteLine($"{user} has been deleted!!!");
+            throw new NotFoundException($"{__username} is not found");
         }
+
+        _dbContext.Users.Remove(dbUser);
+        _dbContext.SaveChanges();
+
+        Console.WriteLine($"{dbUser.UserName} has been deleted!!!");
     }
 
     public void ShowAllDeletedUsers()
@@ -132,8 +131,7 @@ public class UserService : IUserServices
         foreach (User user in _dbContext.Users)
         {
             user.isDelete = true;
-            Console.WriteLine($"All Users:\n" +
-                               $"{user.Name};  {user.Surname};  {user.Phone};  {user.Email};  {user.CreateTime}; {user.ModifiedTime};");
+            Console.WriteLine($"{user.Name};  {user.Surname};  {user.Phone};  {user.Email};  {user.CreateTime}; {user.ModifiedTime};");
         }
     }
 }

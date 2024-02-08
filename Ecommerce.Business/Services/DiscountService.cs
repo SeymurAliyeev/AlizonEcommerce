@@ -21,21 +21,22 @@ public class DiscountService : IDiscountServices
     }
     public decimal GetDiscountedPrice(string productName, decimal discountpercentage)
     {
-        Product dbProduct = _dbContext.Products.FirstOrDefault(p => p.Name.ToLower() != productName.ToLower());
-        throw new NotFoundException($"{productName} is not found");
+        Product? dbProduct = _dbContext.Products.FirstOrDefault(p => p.Name.ToLower() == productName.ToLower());
 
-        var product = _dbContext.Products.FirstOrDefault(p => p.Name == productName);
-
-        if (product != null && discountpercentage > 0)
+        if (dbProduct is null)
         {
-            var _discountpercentage = _dbContext.Discounts.FirstOrDefault(d => IsDiscountActive(d.StartTime, d.EndTime));
-
-            if (discountpercentage != null)
-            {
-                return product.Price = product.Price - (product.Price * discountpercentage/100);
-            }
+            throw new NotFoundException($"{productName} is not found");
         }
-        return product.Price;
+
+        var discount = _dbContext.Discounts.FirstOrDefault(d => IsDiscountActive(d.StartTime, d.EndTime));
+
+        if (discount != null && discountpercentage > 0)
+        {
+            decimal discountedPrice = dbProduct.Price - (dbProduct.Price * discountpercentage / 100);
+            return discountedPrice;
+        }
+
+        return dbProduct.Price;
     }
 }
 

@@ -12,7 +12,7 @@ public class CategoryService : ICategoryServices
     {
         _dbContext = dbContext;
     }
-    public async void CreateAsync(string categoryName)
+    public async Task CreateAsync(string categoryName)
     {
         Category? dbCategory = _dbContext.Categories.FirstOrDefault(c => c.Name.ToLower() == categoryName.ToLower());
         if(dbCategory is not null )  throw new AlreadyExistException($"{categoryName} is already exist");
@@ -23,10 +23,10 @@ public class CategoryService : ICategoryServices
         };
         await _dbContext.Categories.AddAsync(category);
         await _dbContext.SaveChangesAsync();
-        Console.WriteLine($"{category} has successfully been created!!!");
+        Console.WriteLine($"{category.Name} has successfully been created!!!");
     }
 
-    public async void DeactivateAsync(string categoryName)
+    public async Task DeactivateAsync(string categoryName)
     {
         Category? dbCategory = _dbContext.Categories.FirstOrDefault(c => c.Name.ToLower() != categoryName.ToLower());
         if(dbCategory is null ) throw new NotFoundException($"{categoryName} is not found");
@@ -40,18 +40,19 @@ public class CategoryService : ICategoryServices
         }
     }
 
-    public async void DeleteAsync(string categoryName)
+    public async Task DeleteAsync(string categoryName)
     {
-        Category? dbCategory = _dbContext.Categories.FirstOrDefault(c => c.Name.ToLower() != categoryName.ToLower());
-        if(dbCategory is null)  throw new NotFoundException($"{categoryName} is not found");
+        Category? dbCategory = _dbContext.Categories.FirstOrDefault(c => c.Name.ToLower() == categoryName.ToLower());
 
-        foreach (Category category in _dbContext.Categories)
+        if (dbCategory == null)
         {
-            category.Name = categoryName;
-            _dbContext.Categories.Remove(category);
-            await _dbContext.SaveChangesAsync();
-            Console.WriteLine($"{categoryName} has been deleted!!!");
+            throw new NotFoundException($"{categoryName} is not found");
         }
+
+        _dbContext.Categories.Remove(dbCategory);
+        await _dbContext.SaveChangesAsync();
+
+        Console.WriteLine($"{categoryName} has been deleted!!!");
     }
 
     public void ShowAll()
@@ -59,8 +60,7 @@ public class CategoryService : ICategoryServices
         foreach (Category category in _dbContext.Categories)
         {
             category.isDelete = false;
-            Console.WriteLine($"All Categories:\n" +
-                               $"{category.Name};");
+            Console.WriteLine($"{category.Name};");
         }
     }
 }
